@@ -191,12 +191,17 @@ public class DrawableManager {
     
     public void Clean(ImageView image)
     {
-        for(int j=0 ;j<photoQueue.size();){
-            if(photoQueue.get(j).imageView==image)
-            	photoQueue.remove(j);
-            else
-                ++j;
-        }
+    	try {
+	        for(int j=0 ;j<photoQueue.size();){
+	            if(photoQueue.get(j).imageView==image) {
+	            	photoQueue.remove(j);
+	            } else {
+	                ++j;
+	            }
+	        }
+    	} catch(Exception ex) {
+    		if (Constants.DEBUG) ex.printStackTrace();
+    	}
     }
     
     public void stopThread()

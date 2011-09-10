@@ -41,7 +41,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
     }
 
 	public void onVideoSelect(String providerAsId) {
-		
+		mPlayerFragment.loadVideo(providerAsId);
 	}
     
 }

@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.shelby.R;
 import com.shelby.data.provider.model.DbBroadcast;
-import com.shelby.ui.HomeActivity;
 import com.shelby.ui.components.VideoStubAdapter;
 
 public class VideoChooserFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -25,7 +24,7 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 	private final int VIDEO_STUB_LOADER = 1;
 	private VideoStubAdapter mVideoStubAdapter;
 	private ListView mListView;
-	private HomeActivity mMainActivity;
+	private VideoSelectCallbackInterface mVideoLoadInterface;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View root =  inflater.inflate(R.layout.fragment_video_chooser, container, false);
@@ -37,10 +36,13 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
         mListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
 				TextView title = (TextView) v.findViewById(R.id.video_title);
-				String url = (String) title.getTag();
+				String prov = (String) title.getTag();
+				mVideoLoadInterface.onVideoSelect(prov);
 			}
 		});
 		getLoaderManager().getLoader(VIDEO_STUB_LOADER);
+		
+		mVideoLoadInterface = (VideoSelectCallbackInterface) getActivity();
 		return root;
 	}
 
