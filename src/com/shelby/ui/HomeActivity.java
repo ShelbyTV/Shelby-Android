@@ -19,7 +19,7 @@ public class HomeActivity extends BaseActivity {
 	        Intent i = new Intent().setClass(this, LoginActivity.class);
 	        startActivity(i);
         } else {
-        	new InitialPopulateTask().execute();
+        	//new InitialPopulateTask().execute();
         }
         
     }
