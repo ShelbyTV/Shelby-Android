@@ -76,7 +76,7 @@ public class DrawableManager {
     
     public BitmapDrawable getDrawableFromDisk(String imageUrl, Context ctx) {
     	try {
-    		String path = Environment.getExternalStorageDirectory().toString() + "/hashable/cache/" + md5(imageUrl) + ".jpg";
+    		String path = Environment.getExternalStorageDirectory().toString() + "/shelby/cache/" + md5(imageUrl) + ".jpg";
     		BitmapDrawable d = new BitmapDrawable(ctx.getResources(), path);    		
 	    	return d;
     	} catch(Exception ex) {
@@ -91,7 +91,7 @@ public class DrawableManager {
     			return;
 	    	String newFileName = md5(imageUrl) + ".jpg";
 	    	
-	    	String path = Environment.getExternalStorageDirectory().toString() + "/hashable/cache/";
+	    	String path = Environment.getExternalStorageDirectory().toString() + "/shelby/cache/";
 	    	
 	        OutputStream fOut = null;
 	        File dir = new File(path);
