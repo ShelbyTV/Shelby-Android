@@ -1,5 +1,7 @@
 package com.shelby;
 
-public class Constants {
+public final class Constants {
 
+	public final static boolean DEBUG = false;
+	
 }
