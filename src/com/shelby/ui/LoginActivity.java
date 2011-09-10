@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.shelby.R;
 import com.shelby.api.ApiHandler;
@@ -42,10 +43,31 @@ public class LoginActivity extends BaseActivity {
 		}
 	}
 	
+	class FinishAuthTask extends AsyncTask<String, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(String... data) {
+			if (data.length > 0 && data[0] != null)
+				return ApiHandler.getAccessTokenAndKey(data[0], LoginActivity.this);
+			return false;
+		}
+		
+		protected void onPostExecute(Boolean res) {
+			if (res) finish();
+			else {
+				Toast t = Toast.makeText(LoginActivity.this, "Something messed up sorry yo", Toast.LENGTH_LONG);
+				t.show();
+			}
+		}
+		
+	}
+	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == AUTH_REQUEST_TOKEN_ACTIVITY && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
 			String url = data.getExtras().getString("url");
-			
+			new FinishAuthTask().execute(url);
 		}
 	}
+	
+	
 }
