@@ -28,9 +28,6 @@ public class VideoPlayerFragment extends Fragment {
 			videoView = (VideoView)root.findViewById(R.id.video_view);
 		    MediaController mc = new MediaController(getActivity());
 		    videoView.setMediaController(mc);
-		    String videoId = "8qLerGvlD9w";
-		    String getInfoString = "http://gdata.youtube.com/feeds/mobile/videos/"+videoId+"?format=1";
-		    new GetVideoInfoTask().execute(getInfoString);
 	        return root;
 	    }
 	  
@@ -99,6 +96,12 @@ public class VideoPlayerFragment extends Fragment {
 
 				return ret;
 			}
+		}
+		
+		public void loadVideo(String videoId){
+		    //String videoId = "8qLerGvlD9w";
+		    String getInfoString = "http://gdata.youtube.com/feeds/mobile/videos/"+videoId+"?format=1";
+		    new GetVideoInfoTask().execute(getInfoString);
 		}
 
 
