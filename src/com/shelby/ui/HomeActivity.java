@@ -7,10 +7,14 @@ import android.os.Bundle;
 import com.shelby.R;
 import com.shelby.api.SyncUserBroadcasts;
 import com.shelby.api.UserHandler;
+import com.shelby.ui.fragments.VideoChooserFragment.VideoSelectCallbackInterface;
+import com.shelby.ui.fragments.VideoPlayerFragment;
 import com.shelby.utility.PrefsManager;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements VideoSelectCallbackInterface {
     
+	VideoPlayerFragment mPlayerFragment;
+	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -21,6 +25,7 @@ public class HomeActivity extends BaseActivity {
         } else {
         	//new InitialPopulateTask().execute();
         }
+        mPlayerFragment = (VideoPlayerFragment) getFragmentManager().findFragmentById(R.id.player_fragment);
         
     }
 
@@ -34,5 +39,9 @@ public class HomeActivity extends BaseActivity {
 		}
     	
     }
+
+	public void onVideoSelect(String providerAsId) {
+		
+	}
     
 }

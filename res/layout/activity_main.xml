@@ -12,4 +12,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         />   
+	  <fragment android:name="com.shelby.ui.fragments.VideoPlayerFragment"
+	            android:id="@+id/player_fragment"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent" 
+	            android:layout_toRightOf="@+id/fragment_video_chooser"
+	  />        
 </RelativeLayout>

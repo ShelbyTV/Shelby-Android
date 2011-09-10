@@ -24,6 +24,7 @@ public class VideoStubAdapter extends CursorAdapter {
 	
 	private final int clmVideoThumbnail = 1;
 	private final int clmVideoTitle = 2;
+	private final int clmVideoIdAtProvider = 3;
 	
 	/**
 	 * @param context
@@ -52,6 +53,8 @@ public class VideoStubAdapter extends CursorAdapter {
 		}
 		String title = c.getString(clmVideoTitle);
 		String thumb = c.getString(clmVideoThumbnail);
+		String videoAtProvider = c.getString(clmVideoIdAtProvider);
+		vh.getVideoTitle().setTag(videoAtProvider);
 		vh.getVideoThumbnail().setTag(null);
 		vh.getVideoTitle().setText(title);
 		mDrawableManger.queueDrawableFetch(thumb, vh.getVideoThumbnail(), ctx);		
