@@ -19,7 +19,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        if (!PrefsManager.hasUserCredentials(this)) {
+        if (!PrefsManager.hasUserCredentials(this)) {	
 	        Intent i = new Intent().setClass(this, LoginActivity.class);
 	        startActivity(i);
         } else {

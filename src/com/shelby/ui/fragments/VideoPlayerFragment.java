@@ -73,8 +73,10 @@ public class VideoPlayerFragment extends Fragment {
 			
 			protected void onPostExecute(String resp) {
 				if (resp!=null){
+					//Uri uri = Uri.parse("rtsp://v7.cache1.c.youtube.com/CiILENy73wIaGQn81c-5VsP-JhMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp");
+					//Uri uri = Uri.parse("rtsp://v4.cache5.c.youtube.com/CiILENy73wIaGQn81c-5VsP-JhMYESARFEgGUgZ2aWRlb3MM/0/0/0/video.3gp");
 					Uri uri = Uri.parse(resp);
-				    videoView.setVideoURI(uri);
+					videoView.setVideoURI(uri);
 				    videoView.requestFocus();
 				    videoView.start();
 				}else{
@@ -99,8 +101,9 @@ public class VideoPlayerFragment extends Fragment {
 		}
 		
 		public void loadVideo(String videoId){
+			
 		    //String videoId = "8qLerGvlD9w";
-		    String getInfoString = "http://gdata.youtube.com/feeds/mobile/videos/"+videoId+"?format=1";
+		    String getInfoString = "http://gdata.youtube.com/feeds/api/videos/"+videoId+"?format=6";
 		    new GetVideoInfoTask().execute(getInfoString);
 		}
 

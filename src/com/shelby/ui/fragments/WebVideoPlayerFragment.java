@@ -9,11 +9,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.shelby.R;
-import com.shelby.api.bean.Broadcast;
 
 public class WebVideoPlayerFragment extends Fragment {
 	
 	private WebView mWebView;
+	private String data; 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -25,8 +25,8 @@ public class WebVideoPlayerFragment extends Fragment {
 		webSettings.setLoadsImagesAutomatically(true);
 		webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		webSettings.setAppCacheEnabled(false);
-		String data = "<iframe src=\"http://player.vimeo.com/video/19767943?title=0&amp;byline=0&amp;portrait=0\" width=\"400\" height=\"225\" frameborder=\"0\" webkitAllowFullScreen allowFullScreen></iframe><p><a href=\"http://vimeo.com/19767943\">Through the Middle</a> from <a href=\"http://vimeo.com/cloudedvision\">Clouded Vision</a> on <a href=\"http://vimeo.com\">Vimeo</a>.</p>";
-		mWebView.loadData(data,"text/html","utf-8");
+		
+		//String data = "<iframe src=\"http://player.vimeo.com/video/19767943?title=0&amp;byline=0&amp;portrait=0\" width=\"400\" height=\"225\" frameborder=\"0\" webkitAllowFullScreen allowFullScreen></iframe><p><a href=\"http://vimeo.com/19767943\">Through the Middle</a> from <a href=\"http://vimeo.com/cloudedvision\">Clouded Vision</a> on <a href=\"http://vimeo.com\">Vimeo</a>.</p>";
 		//mWebView.loadUrl("http://vimeo.com/19767943");
         return root;
     }
@@ -36,8 +36,9 @@ public class WebVideoPlayerFragment extends Fragment {
 		
 	}
 	
-	public void loadVideo(Broadcast b){
-		
+	public void loadVideo(String videoId){
+		data = "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/"+videoId+"\" frameborder=\"0\">";
+		mWebView.loadData(data,"text/html","utf-8");
 	}
 
 
