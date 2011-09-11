@@ -2,20 +2,21 @@
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
   android:background="#000">
     <VideoView android:id="@+id/video_view"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_centerInParent="true"
 	/>
-	<ProgressBar
-		android:visibility="gone"
-		android:layout_centerInParent="true"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:id="@+id/loading_spinner"
-         style="@android:style/Widget.Holo.ProgressBar.Large"
-	/>
+       <com.shelby.ui.components.FlippingImageView
+	     	android:src="@drawable/icon_alone"
+	     	android:layout_height="wrap_content"
+	     	android:layout_width="wrap_content"
+	     	android:layout_centerInParent="true"		        	
+	     	android:id="@+id/loading_video_logo"	     
+	      	android:layout_marginTop="15dp"  
+	      	android:visibility="gone"	
+       />	  
 </RelativeLayout>

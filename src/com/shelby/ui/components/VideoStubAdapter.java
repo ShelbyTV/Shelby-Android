@@ -24,6 +24,8 @@ public class VideoStubAdapter extends CursorAdapter {
 
 	private final LayoutInflater mInflater;
 	private final DrawableManager mDrawableManger;
+	private boolean firstItemHasLoaded = false;
+	private VideoStubAdapterContainer mVideoStubAdapterContainer;
 	
 	private final int clmLocalId = 0;
 	private final int clmVideoThumbnail = 1;
@@ -37,10 +39,11 @@ public class VideoStubAdapter extends CursorAdapter {
 	 * @param context
 	 * @param c
 	 */
-	public VideoStubAdapter(Context context, Cursor c, int flags) {
+	public VideoStubAdapter(Context context, Cursor c, int flags, VideoStubAdapterContainer vsac) {
 		super(context, c, flags);	
 		mInflater = LayoutInflater.from(context);
-		mDrawableManger = new DrawableManager();		
+		mDrawableManger = new DrawableManager();	
+		mVideoStubAdapterContainer = vsac;
 	}
 
 	@Override
@@ -76,6 +79,10 @@ public class VideoStubAdapter extends CursorAdapter {
 		vh.getSharerSharedSince().setText(DateUtil.formatDateForStream("" + (updated/1000l), true));
 		mDrawableManger.queueDrawableFetch(thumb, vh.getVideoThumbnail(), ctx);
 		mDrawableManger.queueDrawableFetch(sharerPhoto, vh.getSharerPhoto(), ctx);
+		if (!firstItemHasLoaded) {
+			firstItemHasLoaded = true;
+			mVideoStubAdapterContainer.onFirstStubLoaded();
+		}
 	}
 
 	@Override
@@ -138,5 +145,13 @@ public class VideoStubAdapter extends CursorAdapter {
 		private TextView sharerName;
 		private TextView sharerSharedSince;
 			
+	}
+	
+	public interface VideoStubAdapterContainer {
+		public void onFirstStubLoaded();
+	}
+	
+	public void setFirstItemHasntLoaded() {
+		firstItemHasLoaded = false;
 	}
 }

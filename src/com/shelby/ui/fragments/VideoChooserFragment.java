@@ -20,8 +20,9 @@ import com.shelby.R;
 import com.shelby.data.provider.model.DbBroadcast;
 import com.shelby.ui.components.VideoStub;
 import com.shelby.ui.components.VideoStubAdapter;
+import com.shelby.ui.components.VideoStubAdapter.VideoStubAdapterContainer;
 
-public class VideoChooserFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class VideoChooserFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, VideoStubAdapterContainer {
 	
 	private final int VIDEO_STUB_LOADER = 1;
 	private VideoStubAdapter mVideoStubAdapter;
@@ -33,9 +34,10 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 		View root =  inflater.inflate(R.layout.fragment_video_chooser, container, false);
 		getLoaderManager().initLoader(VIDEO_STUB_LOADER, null, this);
 		
-		mVideoStubAdapter = new VideoStubAdapter(getActivity(), null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		mVideoStubAdapter = new VideoStubAdapter(getActivity(), null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER, (VideoStubAdapterContainer) this);
         mListView = (ListView) root.findViewById(R.id.video_listview);
         mListView.setAdapter(mVideoStubAdapter);
+        mListView.setFastScrollEnabled(true);
         mListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
 				setVideoSelected(pos);
@@ -44,8 +46,7 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 				mVideoLoadInterface.onVideoSelect(prov);
 			}
 		});
-		getLoaderManager().getLoader(VIDEO_STUB_LOADER);
-		
+		getLoaderManager().getLoader(VIDEO_STUB_LOADER);		
 		mVideoLoadInterface = (VideoSelectCallbackInterface) getActivity();
 		return root;
 	}
@@ -100,6 +101,26 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 	
 	public interface VideoSelectCallbackInterface {
 		public void onVideoSelect(VideoStub vStub);
+	}
+	
+	public VideoStub getFirstVideo() {
+		if (mListView.getChildCount() > 0) {
+			View v = (View) mListView.getChildAt(0);
+			TextView title = (TextView) v.findViewById(R.id.video_title);
+			return (VideoStub) title.getTag();			
+		}
+		return null;
+	}
+	
+	public void refreshCursor() {
+		mVideoStubAdapter.setFirstItemHasntLoaded();
+		getLoaderManager().restartLoader(VIDEO_STUB_LOADER, null, VideoChooserFragment.this);
+	}
+
+	public void onFirstStubLoaded() {
+		VideoStub vs = getFirstVideo();
+		if (vs != null)
+			mVideoLoadInterface.onVideoSelect(vs);
 	}
 	
 }

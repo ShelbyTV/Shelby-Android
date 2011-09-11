@@ -3,9 +3,10 @@
   android:layout_width="wrap_content"
   android:layout_height="fill_parent"
   android:orientation="vertical">
-      <ListView 
+      <com.shelby.ui.components.BounceListView 
   		  android:layout_width="wrap_content"
   		  android:layout_height="fill_parent"
           android:id="@+id/video_listview"
+          android:cacheColorHint="#66222222"
           />
 </RelativeLayout>

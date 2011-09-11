@@ -19,23 +19,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.MediaController;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.shelby.R;
+import com.shelby.ui.components.FlippingImageView;
 import com.shelby.ui.components.VideoStub;
+import com.shelby.ui.utility.Flip3DAnimation;
 
 public class VideoPlayerFragment extends Fragment {
 	
 		private VideoStub currentVideoStub;
 		private VideoView videoView;
-		private ProgressBar loadingSpinner;
+		private FlippingImageView loadingSpinner;
 	
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 	        View root =  inflater.inflate(R.layout.fragment_video_player, container, false);
-	        loadingSpinner = (ProgressBar) root.findViewById(R.id.loading_spinner);
+	        loadingSpinner = (FlippingImageView) root.findViewById(R.id.loading_video_logo);
+	        loadingSpinner.setRotationFlags(Flip3DAnimation.FLAG_ROTATE_Y);
+	        loadingSpinner.setVisibility(View.GONE);
 			videoView = (VideoView)root.findViewById(R.id.video_view);
 		    MediaController mc = new MediaController(getActivity());
 		    videoView.setMediaController(mc);
@@ -49,6 +52,7 @@ public class VideoPlayerFragment extends Fragment {
 		    videoView.setOnPreparedListener(new OnPreparedListener() {				
 				public void onPrepared(MediaPlayer mp) {
 					loadingSpinner.setVisibility(View.GONE);
+					//videoView.setVisibility(View.VISIBLE);
 					((VideoPlayerInterface) getActivity()).onVideoPlaying(currentVideoStub);
 				}
 			});
@@ -74,6 +78,7 @@ public class VideoPlayerFragment extends Fragment {
 			
 			protected void onPreExecute() {
 				loadingSpinner.setVisibility(View.VISIBLE);
+				videoView.setVisibility(View.GONE);
 			}
 			protected String doInBackground(String... params) {
 				String retStr = "";
@@ -104,9 +109,13 @@ public class VideoPlayerFragment extends Fragment {
 			
 			protected void onPostExecute(String resp) {
 				if (resp!=null){
+					//Uri uri = Uri.parse("rtsp://v7.cache1.c.youtube.com/CiILENy73wIaGQn81c-5VsP-JhMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp");
+					//Uri uri = Uri.parse("http://o-o.preferred.lga15s22.v16.lscache4.c.youtube.com/videoplayback?sparams=id,expire,ip,ipbits,itag,ratebypass,oc:U0hQSldSUl9FSkNOMF9PTFZJ&fexp=905228,903114,912603,910207&itag=18&ip=0.0.0.0&signature=C053A1BBD77282D0B983CE68C4243EC9450BE44C.5CC38D9298F4914352A7D461914457387A556815&sver=3&ratebypass=yes&expire=1315774800&key=yt1&ipbits=0&id=e0d5b744b9d79936&quality=medium&fallback_host=tc.v16.cache4.c.youtube.com&type=video/mp4");
+					videoView.setVisibility(View.VISIBLE);
 					Uri uri = Uri.parse(resp);
 					//Uri uri = Uri.parse("http://o-o.preferred.lga16g05.v13.lscache1.c.youtube.com/videoplayback?sparams=id,expire,ip,ipbits,itag,ratebypass,oc:U0hQSldSUl9FSkNOMF9PTFZJ&fexp=904539,904435,913300&itag=18&ip=0.0.0.0&signature=8121DDEDEE1022BA2234DF722C734F82A2559412.6A554BE29849154638F56021409C9F9CF6FB7E5A&sver=3&ratebypass=yes&expire=1315774800&key=yt1&ipbits=0&id=7f91adbfb00a401d&quality=medium");
 				    videoView.setVideoURI(uri);
+
 				    videoView.requestFocus();
 				    videoView.start();
 				} else {
@@ -139,6 +148,14 @@ public class VideoPlayerFragment extends Fragment {
 			currentVideoStub = vStub;
 		    String getInfoString = "http://gdata.youtube.com/feeds/mobile/videos/"+currentVideoStub.getProviderId()+"?format=1";
 		    new GetVideoInfoTask().execute(getInfoString);
+		}
+		
+		public interface VideoFullScreenCallbackInterface {
+			public void onFullScreen(VideoStub vStub);
+		}
+		
+		public void onFullScreen(){
+			
 		}
 
 		public interface VideoPlayerInterface {
