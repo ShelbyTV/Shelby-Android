@@ -14,6 +14,7 @@ public class VideoStub {
 	private String providerId;
 	private Date updated;
 	private Integer listPostion;
+	private String title;
 	
 	public Long getLocalId() {
 		return localId;
@@ -47,6 +48,12 @@ public class VideoStub {
 	}
 	public Integer getListPostion() {
 		return listPostion;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getTitle() {
+		return title;
 	}
 	
 	

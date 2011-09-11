@@ -24,6 +24,7 @@ import com.shelby.utility.PrefsManager;
 
 public class HomeActivity extends BaseActivity implements VideoSelectCallbackInterface, VideoPlayerInterface, VideoFullScreenCallbackInterface {
     
+	
 	VideoPlayerFragment mPlayerFragment;
 	VideoChooserFragment mChooserFragment;
 	FlippingImageView mFlippingView;
@@ -46,7 +47,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
         mLoadingContainer = (RelativeLayout) findViewById(R.id.loading_container);
         mLoadingProgress = (ProgressBar) findViewById(R.id.loading_progress);
         getActionBar().setDisplayUseLogoEnabled(true);
-        getActionBar().setTitle("");
+        getActionBar().setTitle("");        
     }
     
     public void onResume() {

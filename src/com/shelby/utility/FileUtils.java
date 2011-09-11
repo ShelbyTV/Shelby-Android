@@ -51,9 +51,10 @@ public class FileUtils {
         }
     }
     
-    
+    /*
     public static boolean checkIfFileExists(File dir, String fileName) {
     	
     }
+    */
     
 }

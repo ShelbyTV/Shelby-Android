@@ -71,6 +71,7 @@ public class VideoStubAdapter extends CursorAdapter {
 		vStub.setProviderId(videoAtProvider);
 		vStub.setUpdated(new Date(updated));
 		vStub.setListPostion(c.getPosition());
+		vStub.setTitle(title);
 		vh.getVideoTitle().setTag(vStub);
 		vh.getVideoThumbnail().setTag(null);
 		vh.getVideoTitle().setText(title);

@@ -30,7 +30,6 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +74,11 @@ public class VideoPlayerFragment extends Fragment {
 					loadingSpinner.setVisibility(View.GONE);
 					//videoView.setVisibility(View.VISIBLE);
 					((VideoPlayerInterface) getActivity()).onVideoPlaying(currentVideoStub);
+				    if (currentVideoStub.getTitle() != null) {
+				    	Toast title = Toast.makeText(getActivity(), currentVideoStub.getTitle(), Toast.LENGTH_LONG);
+				    	title.show();
+				    }
+				    videoView.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
 				}
 			});
 		    videoView.setOnErrorListener(new OnErrorListener() {				

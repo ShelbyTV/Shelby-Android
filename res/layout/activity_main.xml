@@ -11,13 +11,13 @@
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        />   
+        />              
 	  <fragment android:name="com.shelby.ui.fragments.VideoPlayerFragment"
 	            android:id="@+id/player_fragment"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent" 
 	            android:layout_toLeftOf="@+id/fragment_video_chooser"
-	  />        
+	  />       
 	  <RelativeLayout
 	  	android:layout_width="500dp"
 	  	android:layout_height="300dp"
