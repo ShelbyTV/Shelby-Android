@@ -7,15 +7,15 @@
 	  <fragment 
 	  	android:name="com.shelby.ui.fragments.VideoChooserFragment"
         android:id="@+id/fragment_video_chooser"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         />   
 	  <fragment android:name="com.shelby.ui.fragments.VideoPlayerFragment"
 	            android:id="@+id/player_fragment"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent" 
-	            android:layout_toRightOf="@+id/fragment_video_chooser"
+	            android:layout_toLeftOf="@+id/fragment_video_chooser"
 	  />        
 </RelativeLayout>

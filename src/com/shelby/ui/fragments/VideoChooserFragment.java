@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.shelby.R;
 import com.shelby.data.provider.model.DbBroadcast;
+import com.shelby.ui.components.VideoStub;
 import com.shelby.ui.components.VideoStubAdapter;
 
 public class VideoChooserFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -36,7 +37,7 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
         mListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
 				TextView title = (TextView) v.findViewById(R.id.video_title);
-				String prov = (String) title.getTag();
+				VideoStub prov = (VideoStub) title.getTag();
 				mVideoLoadInterface.onVideoSelect(prov);
 			}
 		});
@@ -52,11 +53,14 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 			,DbBroadcast.VIDEO_THUMBNAIL
 			,DbBroadcast.VIDEO_TITLE
 			,DbBroadcast.VIDEO_ID_AT_PROVIDER
+			,DbBroadcast.VIDEO_ORIGINATOR_USER_NAME
+			,DbBroadcast.VIDEO_ORIGINATOR_USER_IMAGE
+			,DbBroadcast.UPDATED
 		};
 		String[] query = {
 			"youtube"
 		};
-		return new CursorLoader(getActivity(), DbBroadcast.CONTENT_URI, projection, " " + DbBroadcast.VIDEO_PROVIDER + " = ? ", query, null);
+		return new CursorLoader(getActivity(), DbBroadcast.CONTENT_URI, projection, " " + DbBroadcast.VIDEO_PROVIDER + " = ? ", query, DbBroadcast.UPDATED + " desc");
 	}
 
 	public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
@@ -68,7 +72,7 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 	}
 	
 	public interface VideoSelectCallbackInterface {
-		public void onVideoSelect(String url);
+		public void onVideoSelect(VideoStub vStub);
 	}
 	
 }
