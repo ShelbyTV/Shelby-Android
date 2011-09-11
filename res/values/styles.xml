@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="ShelbyActionBar" parent="android:style/Widget.Holo.ActionBar">
+		<item name="android:background">@drawable/background_action_bar</item>
+	</style>
+	
+	<style name="Theme.ShelbyTheme" parent="android:style/Theme.Holo">
+		<item name="android:actionBarStyle">@style/ShelbyActionBar</item>
+	</style>
+</resources>

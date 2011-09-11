@@ -8,15 +8,18 @@ package com.shelby.data;
 
 import java.io.IOException;
 import java.nio.channels.NonWritableChannelException;
+import java.util.Date;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.shelby.api.bean.Broadcast;
 import com.shelby.api.bean.Channel;
 import com.shelby.data.provider.model.DbBroadcast;
 import com.shelby.data.provider.model.DbChannel;
+import com.shelby.ui.components.VideoStub;
 
 /**
  * @author aaron
@@ -51,6 +54,10 @@ public class ShelbyDatabase {
 		this.db = this.dbHelper.getWritableDatabase();
 	}
 	
+	public void openRead() {
+		this.db = this.dbHelper.getReadableDatabase();
+	}
+	
 	public void beginTransaction() {
 		this.db.beginTransaction();
 	}
@@ -79,6 +86,27 @@ public class ShelbyDatabase {
 	public void close() {
 		if (this.db != null)
 			this.db.close();
+	}
+	
+	public VideoStub getNextStub(long timeInSec) {
+		if (this.db == null)
+			return null;
+		
+		Cursor c = this.db.query(SQL.Table.BROADCAST, new String[] {
+				DbBroadcast._ID
+				,DbBroadcast.VIDEO_ID_AT_PROVIDER
+				,DbBroadcast.UPDATED
+		}, DbBroadcast.UPDATED + " < ? AND " + DbBroadcast.VIDEO_PROVIDER + " = ? ", new String[] { "" + timeInSec, "youtube" }, null, null, DbBroadcast.UPDATED + " desc");
+		if (c.moveToFirst()) {
+			VideoStub vs = new VideoStub();
+			vs.setLocalId(c.getLong(0));
+			vs.setProviderId(c.getString(1));
+			vs.setUpdated(new Date(c.getLong(2)*1000));
+			c.close();
+			return vs;
+		}
+		if (c != null) c.close();
+		return null;
 	}
 	
 	public long insertChannel(Channel channel) {

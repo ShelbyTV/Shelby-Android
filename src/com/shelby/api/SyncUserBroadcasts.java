@@ -1,5 +1,6 @@
 package com.shelby.api;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -22,7 +23,7 @@ public final class SyncUserBroadcasts {
 			String channels = ApiHandler.makeSignedGetRequest("v1/channels.json", ctx);
 			ShelbyDatabase shelbyDb = new ShelbyDatabase(ctx);
 			try {
-				shelbyDb.reset();
+				//shelbyDb.reset();
 				shelbyDb.openRW();
 				shelbyDb.beginTransaction();
 				//hate using this library but whatever
@@ -107,6 +108,20 @@ public final class SyncUserBroadcasts {
 								broad.setDescription(jsonB.getString("description"));
 							if (jsonB.has("user_id"))
 								broad.setUserId(jsonB.getString("user_id"));
+							if (jsonB.has("created_at")) {
+								try {
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+									String created = jsonB.getString("created_at").replace("T", " ").replace(".000Z", "");
+									broad.setCreated(sdf.parse(created));
+								} catch(Exception ex) { } //dont do this
+							}
+							if (jsonB.has("updated_at")) {
+								try {
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+									String updated = jsonB.getString("updated_at").replace("T", " ").replace(".000Z", "");
+									broad.setUpdated(sdf.parse(updated));
+								} catch(Exception ex) { }
+							}
 							shelbyDb.insertBroadcast(broad);
 						}
 					}

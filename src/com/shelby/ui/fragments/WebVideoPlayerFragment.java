@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.shelby.R;
+import com.shelby.ui.components.VideoStub;
 
 public class WebVideoPlayerFragment extends Fragment {
 	
@@ -21,6 +22,7 @@ public class WebVideoPlayerFragment extends Fragment {
 		mWebView = (WebView)root.findViewById(R.id.video_view);
 		mWebView.clearCache(true);
 		WebSettings webSettings = mWebView.getSettings();
+		webSettings.setPluginsEnabled(true);
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setLoadsImagesAutomatically(true);
 		webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -36,8 +38,13 @@ public class WebVideoPlayerFragment extends Fragment {
 		
 	}
 	
-	public void loadVideo(String videoId){
-		data = "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/"+videoId+"\" frameborder=\"0\">";
+	public void loadVideo(VideoStub vStub){
+		//data = "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/"+videoId+"\" frameborder=\"0\">";
+		//data = "<video width=\"320\" height=\"240\" controls=\"controls\"><source src=";
+		//data += "http://o-o.preferred.lga15s22.v16.lscache4.c.youtube.com/videoplayback?sparams=id,expire,ip,ipbits,itag,ratebypass,oc:U0hQSldSUl9FSkNOMF9PTFZJ&fexp=905228,903114,912603,910207&itag=18&ip=0.0.0.0&signature=4FB4E329FA137154198E103CB3800EB8C7196996.9C7905A2C20C77A30E87CB77E0E54818F106B64D&sver=3&ratebypass=yes&expire=1315774800&key=yt1&ipbits=0&id=e0d5b744b9d79936&quality=medium&fallback_host=tc.v16.cache4.c.youtube.com&type=video/mp4";
+		//data += "type=\"video/mp4\" /><source src=\"movie.ogg\" type=\"video/ogg\" />Your browser does not support the video tag.</video>";
+		data = "<iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/Jv7DVrnP1fw?autoplay=1\" frameborder=\"0\">";
+		//mWebView.loadUrl("http://www.youtube.com/embed/Jv7DVrnP1fw?autplay=1");
 		mWebView.loadData(data,"text/html","utf-8");
 	}
 
