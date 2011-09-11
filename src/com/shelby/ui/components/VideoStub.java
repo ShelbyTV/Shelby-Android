@@ -8,7 +8,7 @@ import com.shelby.data.ShelbyDatabase;
 
 public class VideoStub {
 
-	public VideoStub() { super(); }
+	public VideoStub() { super(); listPostion = 0; }
 	
 	private Long localId;
 	private String providerId;
