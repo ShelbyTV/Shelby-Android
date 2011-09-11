@@ -6,7 +6,7 @@
     	android:drawable="@drawable/background_bevel_gray_clicked" >
     </item>
     <item
-    	android:drawable="@drawable/background_bevel_gray" >    
+    	android:drawable="@drawable/background_bevel_light_gray" >    
     </item>
 </selector>
 

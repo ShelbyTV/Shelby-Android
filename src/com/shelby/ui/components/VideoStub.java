@@ -13,6 +13,7 @@ public class VideoStub {
 	private Long localId;
 	private String providerId;
 	private Date updated;
+	private Integer listPostion;
 	
 	public Long getLocalId() {
 		return localId;
@@ -31,6 +32,7 @@ public class VideoStub {
 		ShelbyDatabase sd = new ShelbyDatabase(ctx);
 		sd.openRead();
 		VideoStub vs = sd.getNextStub(updated.getTime()/1000l);
+		vs.setListPostion(listPostion+1);
 		sd.close();
 		return vs;
 	}
@@ -39,6 +41,12 @@ public class VideoStub {
 	}
 	public Date getUpdated() {
 		return updated;
+	}
+	public void setListPostion(Integer listPostion) {
+		this.listPostion = listPostion;
+	}
+	public Integer getListPostion() {
+		return listPostion;
 	}
 	
 	

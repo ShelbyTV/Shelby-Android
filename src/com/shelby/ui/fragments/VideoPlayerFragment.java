@@ -32,7 +32,7 @@ public class VideoPlayerFragment extends Fragment {
 		private VideoView videoView;
 		private ProgressBar loadingSpinner;
 	
-	  @Override
+	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 	        View root =  inflater.inflate(R.layout.fragment_video_player, container, false);
 	        loadingSpinner = (ProgressBar) root.findViewById(R.id.loading_spinner);
@@ -49,6 +49,7 @@ public class VideoPlayerFragment extends Fragment {
 		    videoView.setOnPreparedListener(new OnPreparedListener() {				
 				public void onPrepared(MediaPlayer mp) {
 					loadingSpinner.setVisibility(View.GONE);
+					((VideoPlayerInterface) getActivity()).onVideoPlaying(currentVideoStub);
 				}
 			});
 		    videoView.setOnErrorListener(new OnErrorListener() {				
@@ -65,7 +66,7 @@ public class VideoPlayerFragment extends Fragment {
 			super.onResume();
 	  }
 		
-		public class GetVideoInfoTask extends AsyncTask<String, Void, String> {
+	  public class GetVideoInfoTask extends AsyncTask<String, Void, String> {
 						
 			public GetVideoInfoTask() {
 				super();
@@ -104,10 +105,11 @@ public class VideoPlayerFragment extends Fragment {
 			protected void onPostExecute(String resp) {
 				if (resp!=null){
 					Uri uri = Uri.parse(resp);
+					//Uri uri = Uri.parse("http://o-o.preferred.lga16g05.v13.lscache1.c.youtube.com/videoplayback?sparams=id,expire,ip,ipbits,itag,ratebypass,oc:U0hQSldSUl9FSkNOMF9PTFZJ&fexp=904539,904435,913300&itag=18&ip=0.0.0.0&signature=8121DDEDEE1022BA2234DF722C734F82A2559412.6A554BE29849154638F56021409C9F9CF6FB7E5A&sver=3&ratebypass=yes&expire=1315774800&key=yt1&ipbits=0&id=7f91adbfb00a401d&quality=medium");
 				    videoView.setVideoURI(uri);
 				    videoView.requestFocus();
 				    videoView.start();
-				}else{
+				} else {
 					Toast t = Toast.makeText(getActivity(), "Woops! Something went wrong. Playing the next video son!", Toast.LENGTH_LONG);
 					t.show();
 					currentVideoStub = currentVideoStub.getNextStub(getActivity());
@@ -139,5 +141,7 @@ public class VideoPlayerFragment extends Fragment {
 		    new GetVideoInfoTask().execute(getInfoString);
 		}
 
-
+		public interface VideoPlayerInterface {
+			public void onVideoPlaying(VideoStub vStub);
+		}
 }

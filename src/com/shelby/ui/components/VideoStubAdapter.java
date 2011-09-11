@@ -45,6 +45,7 @@ public class VideoStubAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View v, Context ctx, Cursor c) {
+		v.setBackgroundResource(R.drawable.clickable_background_bevel_gray);
 		ViewHolder vh = null;
 		if (v.getTag() != null) {
 			vh = (ViewHolder)v.getTag();
@@ -66,6 +67,7 @@ public class VideoStubAdapter extends CursorAdapter {
 		vStub.setLocalId(c.getLong(clmLocalId));
 		vStub.setProviderId(videoAtProvider);
 		vStub.setUpdated(new Date(updated));
+		vStub.setListPostion(c.getPosition());
 		vh.getVideoTitle().setTag(vStub);
 		vh.getVideoThumbnail().setTag(null);
 		vh.getVideoTitle().setText(title);

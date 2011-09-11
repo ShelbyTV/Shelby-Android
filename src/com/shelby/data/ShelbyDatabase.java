@@ -15,6 +15,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.shelby.Constants;
 import com.shelby.api.bean.Broadcast;
 import com.shelby.api.bean.Channel;
 import com.shelby.data.provider.model.DbBroadcast;
@@ -125,8 +126,12 @@ public class ShelbyDatabase {
 		//	content.put(DbChannel.Column.UPDATED, channel.getCreated());
 		if (channel.getIsPublic() != null)
 			content.put(DbChannel.Column.PUBLIC, channel.getIsPublic());
-		
-		return this.db.insert(SQL.Table.CHANNEL, null, content);
+		try {
+			return this.db.insertOrThrow(SQL.Table.CHANNEL, null, content);
+		} catch(Exception ex) {
+			if (Constants.DEBUG) ex.printStackTrace();
+		}
+		return 0;
 	}
 	
 	public boolean insertBroadcast(Broadcast broadcast) {
@@ -179,7 +184,11 @@ public class ShelbyDatabase {
 			content.put(DbBroadcast.Column.UPDATED, broadcast.getUpdated().getTime()/1000l);
 		if (broadcast.getCreated() != null)
 			content.put(DbBroadcast.Column.CREATED, broadcast.getCreated().getTime()/1000l);
-		this.db.insert(SQL.Table.BROADCAST, null, content);
+		try {
+			this.db.insertOrThrow(SQL.Table.BROADCAST, null, content);
+		} catch(Exception ex) {
+			if (Constants.DEBUG) ex.printStackTrace();
+		}
 		return true;
 	}
 	

@@ -6,6 +6,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 	private VideoStubAdapter mVideoStubAdapter;
 	private ListView mListView;
 	private VideoSelectCallbackInterface mVideoLoadInterface;
+	private int currentSelectedVideoPositon = -1;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View root =  inflater.inflate(R.layout.fragment_video_chooser, container, false);
@@ -36,6 +38,7 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
         mListView.setAdapter(mVideoStubAdapter);
         mListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
+				setVideoSelected(pos);
 				TextView title = (TextView) v.findViewById(R.id.video_title);
 				VideoStub prov = (VideoStub) title.getTag();
 				mVideoLoadInterface.onVideoSelect(prov);
@@ -46,6 +49,30 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 		mVideoLoadInterface = (VideoSelectCallbackInterface) getActivity();
 		return root;
 	}
+	
+	public void setVideoSelected(int position) {
+		if (currentSelectedVideoPositon != position) {
+			currentSelectedVideoPositon = position;
+			for(int i=0; i<mListView.getChildCount(); i++) {
+				View resetView = (View) mListView.getChildAt(i);
+				resetView.setBackgroundResource(R.drawable.clickable_background_bevel_gray);
+			}
+			mListView.setSelection(position);
+			setTopIsSelected.start();		
+		}
+	}
+	
+	CountDownTimer setTopIsSelected = new CountDownTimer(300, 300) {
+		
+		@Override
+		public void onTick(long millisUntilFinished) {}
+		
+		@Override
+		public void onFinish() {
+			View v = (View) mListView.getChildAt(0);
+			v.setBackgroundResource(R.drawable.clickable_background_bevel_light_gray);
+		}
+	};
 
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = {
