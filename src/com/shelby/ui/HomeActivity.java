@@ -10,13 +10,13 @@ import com.shelby.api.SyncUserBroadcasts;
 import com.shelby.ui.components.VideoStub;
 import com.shelby.ui.fragments.VideoChooserFragment;
 import com.shelby.ui.fragments.VideoChooserFragment.VideoSelectCallbackInterface;
+import com.shelby.ui.fragments.VideoPlayerFragment;
 import com.shelby.ui.fragments.VideoPlayerFragment.VideoFullScreenCallbackInterface;
-import com.shelby.ui.fragments.WebVideoPlayerFragment;
 import com.shelby.utility.PrefsManager;
 
 public class HomeActivity extends BaseActivity implements VideoSelectCallbackInterface, VideoFullScreenCallbackInterface {
     
-	WebVideoPlayerFragment mPlayerFragment;
+	VideoPlayerFragment mPlayerFragment;
 	VideoChooserFragment mChooserFragment;
 	
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
         } else {
         	new InitialPopulateTask().execute();
         }
-        mPlayerFragment = (WebVideoPlayerFragment) getFragmentManager().findFragmentById(R.id.player_fragment);
+        mPlayerFragment = (VideoPlayerFragment) getFragmentManager().findFragmentById(R.id.player_fragment);
         mChooserFragment = (VideoChooserFragment) getFragmentManager().findFragmentById(R.id.fragment_video_chooser);
     }
 

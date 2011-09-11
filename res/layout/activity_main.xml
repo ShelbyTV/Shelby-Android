@@ -12,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         />   
-	  <fragment android:name="com.shelby.ui.fragments.WebVideoPlayerFragment"
+	  <fragment android:name="com.shelby.ui.fragments.VideoPlayerFragment"
 	            android:id="@+id/player_fragment"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent" 
