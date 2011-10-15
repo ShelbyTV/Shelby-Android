@@ -34,6 +34,9 @@ public class FullScreenVideoPlayerActivity extends BaseActivity implements Loade
         mCloseFullScreen = (ImageView) findViewById(R.id.close_full_screen);
         mCloseFullScreen.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
+				Intent i = new Intent();
+				i.putExtra("current_position", mPlayerFragment.getCurrentLocation());
+				setResult(RESULT_OK, i);
 				finish();
 			}
 		});
@@ -53,13 +56,13 @@ public class FullScreenVideoPlayerActivity extends BaseActivity implements Loade
     }
 	
 	@Override
-	protected void onDestroy() {
+	public void onBackPressed() {
 		Intent i = new Intent();
 		i.putExtra("current_position", mPlayerFragment.getCurrentLocation());
 		setResult(RESULT_OK, i);
-		super.onDestroy();
+		finish();
 	}
-
+	
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {
 				DbBroadcast._ID
