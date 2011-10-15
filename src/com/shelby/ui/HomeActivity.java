@@ -2,6 +2,9 @@ package com.shelby.ui;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import com.shelby.api.SyncUserBroadcasts;
 import com.shelby.api.UserHandler;
 import com.shelby.ui.components.FlippingImageView;
 import com.shelby.ui.components.VideoStub;
+import com.shelby.ui.fragments.ShareFragment;
 import com.shelby.ui.fragments.VideoChooserFragment;
 import com.shelby.ui.fragments.VideoChooserFragment.VideoSelectCallbackInterface;
 import com.shelby.ui.fragments.VideoPlayerFragment;
@@ -134,6 +138,18 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 					}					
 					public void onAnimationCancel(Animator animation) {}
 				});
+			break;
+			case R.id.share:
+				FragmentTransaction ft = getFragmentManager().beginTransaction();
+			    Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+			    if (prev != null) {
+			        ft.remove(prev);
+			    }
+			    ft.addToBackStack(null);
+
+			    // Create and show the dialog.
+			    DialogFragment newFragment = ShareFragment.newInstance(1);
+			    newFragment.show(ft, "dialog");
 			break;
 		}
 		return super.onMenuItemSelected(featureId, item);

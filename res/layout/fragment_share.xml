@@ -1,0 +1,37 @@
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical">
+     	<EditText 
+     		android:layout_margin="5dp"
+    		android:layout_width="fill_parent"
+    		android:layout_height="100dp"
+    		android:id="@+id/share_text" 	
+     	/>
+     	<LinearLayout
+		  	android:layout_width="fill_parent"
+		  	android:layout_height="wrap_content" 
+		  	android:layout_below="@+id/share_text"  
+		  	android:orientation="horizontal"  	
+     	>
+     		<CheckBox 
+	 		  	android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:button="@drawable/clickable_facebook"
+			  	android:id="@+id/facebook"    		
+     		/>
+     		<CheckBox 
+	 		  	android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:button="@drawable/clickable_twitter"
+			  	android:id="@+id/twitter"    		
+     		/>
+     		<Button
+     			android:layout_width="wrap_content"
+     			android:layout_height="wrap_content"
+     			android:text="Share"
+     			android:id="@+id/share"
+     		/>
+     	</LinearLayout>
+</RelativeLayout>
