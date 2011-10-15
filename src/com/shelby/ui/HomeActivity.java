@@ -1,9 +1,12 @@
 package com.shelby.ui;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -24,6 +27,7 @@ import com.shelby.utility.PrefsManager;
 
 public class HomeActivity extends BaseActivity implements VideoSelectCallbackInterface, VideoPlayerInterface, VideoFullScreenCallbackInterface {
     
+	private final int FULL_SCREEN_ACTIVITY = 1;
 	
 	VideoPlayerFragment mPlayerFragment;
 	VideoChooserFragment mChooserFragment;
@@ -54,6 +58,17 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
     	super.onResume();
     	if (PrefsManager.hasUserCredentials(this)) {
     		new InitialPopulateTask().execute();
+    	}
+    	try {
+    		if (mChooserFragment.getView() != null && mChooserFragment.getView().animate() != null)
+    			mChooserFragment.getView().animate().translationX(0f).setDuration(500).setListener(new AnimatorListener() {					
+					public void onAnimationStart(Animator animation) {}
+					public void onAnimationRepeat(Animator animation) {}
+					public void onAnimationEnd(Animator animation) {}
+					public void onAnimationCancel(Animator animation) {}
+				});
+    	} catch(Exception ex) {
+    		if (Constants.DEBUG) ex.printStackTrace();
     	}
     }
 
@@ -102,6 +117,36 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 	public boolean onCreateOptionsMenu(Menu menu) {
 	  getMenuInflater().inflate(R.menu.action_bar, menu);
 	  return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch(item.getItemId()) {		
+			case R.id.full_screen:
+				mChooserFragment.getView().animate().translationXBy(400f).setDuration(500).setListener(new AnimatorListener() {					
+					public void onAnimationStart(Animator animation) {}					
+					public void onAnimationRepeat(Animator animation) {}					
+					public void onAnimationEnd(Animator animation) {
+						Intent i = new Intent().setClass(HomeActivity.this, FullScreenVideoPlayerActivity.class);
+						i.putExtra("local_broadcast_id", mPlayerFragment.getCurrentVideoStub().getLocalId());
+						i.putExtra("current_position", mPlayerFragment.getCurrentLocation());
+						startActivityForResult(i, FULL_SCREEN_ACTIVITY);
+					}					
+					public void onAnimationCancel(Animator animation) {}
+				});
+			break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == FULL_SCREEN_ACTIVITY && resultCode == RESULT_OK) {
+			if (data.getExtras() != null && data.getExtras().getInt("current_position", 0) > 0) {
+				mPlayerFragment.setCurrentLocation(data.getExtras().getInt("current_position", 0));
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
     
 }

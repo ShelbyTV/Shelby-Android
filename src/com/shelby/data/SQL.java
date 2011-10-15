@@ -70,9 +70,6 @@ public final class SQL {
 		"	, " + DbBroadcast.Column.VIDEO_PROVIDER + "						varchar" +
 		"	, " + DbBroadcast.Column.VIDEO_THUMBNAIL + "					varchar" +
 		"	, " + DbBroadcast.Column.VIDEO_TITLE + "						varchar" +
-		"	, " + DbBroadcast.Column.VIDEO_USER_ID + "						varchar" +
-		"	, " + DbBroadcast.Column.VIDEO_USER_NICKNAME + "				varchar" +
-		"	, " + DbBroadcast.Column.VIDEO_USER_THUMBNAIL + "				varchar" +
 		"	, " + DbBroadcast.Column.WATCHED_BY_OWNER + "					bit" +
 		"	, " + DbBroadcast.Column.CREATED + "							integer" +
 		"	, " + DbBroadcast.Column.UPDATED + "							integer" +

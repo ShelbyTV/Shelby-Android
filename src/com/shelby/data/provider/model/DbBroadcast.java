@@ -32,9 +32,6 @@ public class DbBroadcast {
 	public static final String VIDEO_PROVIDER = Table.BROADCAST + "." + Column.VIDEO_PROVIDER;
 	public static final String VIDEO_THUMBNAIL = Table.BROADCAST + "." + Column.VIDEO_THUMBNAIL;
 	public static final String VIDEO_TITLE = Table.BROADCAST + "." + Column.VIDEO_TITLE;
-	public static final String VIDEO_USER_ID = Table.BROADCAST + "." + Column.VIDEO_USER_ID;
-	public static final String VIDEO_USER_NICKNAME = Table.BROADCAST + "." + Column.VIDEO_USER_NICKNAME;
-	public static final String VIDEO_USER_THUMBNAIL = Table.BROADCAST + "." + Column.VIDEO_USER_THUMBNAIL;
 	public static final String WATCHED_BY_OWNER = Table.BROADCAST + "." + Column.WATCHED_BY_OWNER;
 	public static final String UPDATED = Table.BROADCAST + "." + Column.UPDATED;
 	public static final String CREATED = Table.BROADCAST + "." + Column.CREATED;
@@ -59,9 +56,6 @@ public class DbBroadcast {
 		public static final String VIDEO_PROVIDER = "video_provider";
 		public static final String VIDEO_THUMBNAIL = "video_thumbnail";
 		public static final String VIDEO_TITLE = "video_title";
-		public static final String VIDEO_USER_ID = "video_user_id";
-		public static final String VIDEO_USER_NICKNAME = "video_user_nickname";
-		public static final String VIDEO_USER_THUMBNAIL = "video_user_thumbnail";
 		public static final String WATCHED_BY_OWNER = "watched_by_owner";
 		public static final String UPDATED = "updated";
 		public static final String CREATED = "created";

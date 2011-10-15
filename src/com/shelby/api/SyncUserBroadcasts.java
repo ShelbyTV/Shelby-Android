@@ -86,12 +86,6 @@ public final class SyncUserBroadcasts {
 								broad.setVideoIdAtProvider(jsonB.getString("video_id_at_provider"));
 							if (jsonB.has("video_player"))
 								broad.setVideoPlayer(jsonB.getString("video_player"));
-							if (jsonB.has("video_user_id"))
-								broad.setVideoUserId(jsonB.getString("video_user_id"));
-							if (jsonB.has("video_user_nickname"))
-								broad.setVideoUserNickName(jsonB.getString("video_user_nickname"));
-							if (jsonB.has("video_user_thumbnail"))
-								broad.setVideoUserThumbnail(jsonB.getString("video_user_thumbnail"));
 							if (jsonB.has("video_originator_user_image"))
 								broad.setVideoOriginatorUserImage(jsonB.getString("video_originator_user_image"));
 							if (jsonB.has("video_originator_user_name"))

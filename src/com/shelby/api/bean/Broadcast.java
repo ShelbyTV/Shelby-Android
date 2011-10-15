@@ -25,9 +25,6 @@ public class Broadcast {
 	private String videoProvider;
 	private String videoThumbnail;
 	private String videoTitle;
-	private String videoUserId;
-	private String videoUserNickName;
-	private String videoUserThumbnail;
 	private Boolean watchedByOwner;
 	private Date updated;
 	private Date created;
@@ -145,18 +142,6 @@ public class Broadcast {
 	public void setVideoTitle(String videoTitle) {
 		this.videoTitle = videoTitle;
 	}
-	public String getVideoUserId() {
-		return videoUserId;
-	}
-	public void setVideoUserId(String videoUserId) {
-		this.videoUserId = videoUserId;
-	}
-	public String getVideoUserNickName() {
-		return videoUserNickName;
-	}
-	public void setVideoUserNickName(String videoUserNickName) {
-		this.videoUserNickName = videoUserNickName;
-	}
 	public Boolean getWatchedByOwner() {
 		return watchedByOwner;
 	}
@@ -174,12 +159,6 @@ public class Broadcast {
 	}
 	public void setCreated(Date created) {
 		this.created = created;
-	}
-	public void setVideoUserThumbnail(String videoUserThumbnail) {
-		this.videoUserThumbnail = videoUserThumbnail;
-	}
-	public String getVideoUserThumbnail() {
-		return videoUserThumbnail;
 	}
 	
 }

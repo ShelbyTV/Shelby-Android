@@ -11,19 +11,14 @@ import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.http.HttpRequest;
-import oauth.signpost.signature.PlainTextMessageSigner;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
 import org.scribe.model.Token;
-import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
 import android.content.Context;
@@ -37,8 +32,8 @@ public final class ApiHandler {
 	public static final String CALL_BACK = "http://dev.shelby.tv/callback";
 	
 	
-	private static final String CONSUMER_KEY = "lBtEAt7k1qTDCYmh5pXTupPUxAmgSdxakGhIzMDN";
-	private static final String CONSUMER_SECRET = "b8AiGugseNC05GlwYO5ImlfQrQT00gWZ3Nv3s8ER";
+	private static final String CONSUMER_KEY = "uqIWeNqYTYYpsLkaZsOC0LaePSNLIshbHa1KDh3M";
+	private static final String CONSUMER_SECRET = "z23CPwwleO7zGTy9g2m1sOZXXmtdlrdg3Tq90pXJ";
 	public static final String URL_REQUEST_TOKEN = "http://dev.shelby.tv/oauth/request_token";
 	public static final String URL_AUTHORIZE = "http://dev.shelby.tv/oauth/authorize";
 	public static final String URL_ACCESS_TOKEN = "http://dev.shelby.tv/oauth/access_token";
@@ -63,7 +58,6 @@ public final class ApiHandler {
 		//tkn = "MSmipoekUaaGMCor64ltPcMoS1raRrrnXyHt5CwZ";
 		String scrt = pref.getString("user_secret", ""); 
 		//scrt = "7pkVgJI7rqJLnxfkYaXp6d1Q3QkRY3S7CUxhXHXS";
-		consumer.setMessageSigner(new PlainTextMessageSigner());
         consumer.setTokenWithSecret(tkn, scrt);
      
 		return consumer;

@@ -174,10 +174,6 @@ public class ShelbyDatabase {
 			content.put(DbBroadcast.Column.VIDEO_THUMBNAIL, broadcast.getVideoThumbnail());
 		if (broadcast.getVideoTitle() != null && !broadcast.getVideoTitle().equals(""))
 			content.put(DbBroadcast.Column.VIDEO_TITLE, broadcast.getVideoTitle());
-		if (broadcast.getVideoUserId() != null && !broadcast.getVideoUserId().equals(""))
-			content.put(DbBroadcast.Column.VIDEO_USER_ID, broadcast.getVideoUserId());
-		if (broadcast.getVideoUserNickName() != null && !broadcast.getVideoUserNickName().equals(""))
-			content.put(DbBroadcast.Column.VIDEO_USER_NICKNAME, broadcast.getVideoUserNickName());
 		if (broadcast.getWatchedByOwner() != null)
 			content.put(DbBroadcast.Column.WATCHED_BY_OWNER, broadcast.getWatchedByOwner());
 		if (broadcast.getUpdated() != null)

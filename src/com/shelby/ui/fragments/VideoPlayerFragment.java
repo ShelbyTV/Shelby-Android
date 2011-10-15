@@ -51,6 +51,7 @@ public class VideoPlayerFragment extends Fragment {
 		private VideoStub currentVideoStub;
 		private VideoView videoView;
 		private FlippingImageView loadingSpinner;
+		private int currentPosition = 0;
 	
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -93,6 +94,15 @@ public class VideoPlayerFragment extends Fragment {
 	  
 	  public void onResume(){
 			super.onResume();
+	  }
+	  
+	  public int getCurrentLocation() {
+		  this.currentPosition = videoView.getCurrentPosition();
+		  return videoView.getCurrentPosition();
+	  }
+	  
+	  public void setCurrentLocation(int position) {
+		  this.currentPosition = position;
 	  }
 		
 	  public class GetVideoInfoTask extends AsyncTask<String, Void, String> {
@@ -184,6 +194,9 @@ public class VideoPlayerFragment extends Fragment {
 			
 		}
 
+		public VideoStub getCurrentVideoStub() {
+			return currentVideoStub;
+		}
 
 		public interface VideoPlayerInterface {
 			public void onVideoPlaying(VideoStub vStub);
@@ -257,6 +270,10 @@ public class VideoPlayerFragment extends Fragment {
 					videoView.setVisibility(View.VISIBLE);
 					videoView.setVideoURI(uri);
 					videoView.requestFocus();
+					if (currentVideoStub.getVideoPosition() > currentPosition)
+						videoView.seekTo(currentVideoStub.getVideoPosition());
+					else 
+						videoView.seekTo(currentPosition);
 					videoView.start();
 				} else {
 					Toast t = Toast.makeText(getActivity(), "Woops! Something went wrong. Playing the next video son!", Toast.LENGTH_LONG);

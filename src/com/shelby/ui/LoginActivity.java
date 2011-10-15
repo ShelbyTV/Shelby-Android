@@ -19,10 +19,16 @@ public class LoginActivity extends BaseActivity {
 		super.onCreate(grabber);
 		setContentView(R.layout.activity_login);
 		
-		Button login = (Button) findViewById(R.id.login_button);
-		login.setOnClickListener(new OnClickListener() {
+		Button twitterLogin = (Button) findViewById(R.id.twitter_login_button);
+		Button facebookLogin = (Button) findViewById(R.id.facebook_login_button);
+		twitterLogin.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				new GetAuthUrlTask().execute();
+			}
+		});
+		facebookLogin.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+				
 			}
 		});
 		
@@ -38,7 +44,7 @@ public class LoginActivity extends BaseActivity {
 		
 		protected void onPostExecute(String ret) {
 			Intent i = new Intent().setClass(LoginActivity.this, WebViewActivity.class);
-			i.putExtra("url", ret);
+			i.putExtra("url", ret + "&provider=twitter");
 			startActivityForResult(i, AUTH_REQUEST_TOKEN_ACTIVITY);
 		}
 	}

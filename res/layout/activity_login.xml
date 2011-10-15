@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#222"
     >
 	<LinearLayout
 		android:layout_width="fill_parent"
@@ -11,22 +12,23 @@
 	    android:layout_centerInParent="true"
 	    android:orientation="vertical"
 	>
-		<EditText
-			android:layout_width="fill_parent"
+		<ImageView
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:hint="username"
-		/>
-		<EditText
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:hint="password"
-			android:password="true"		
+			android:src="@drawable/icon_together"
+			android:layout_gravity="center"
 		/>
 		<Button
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="login"
-			android:id="@+id/login_button"
+			android:text="Twitter Login"
+			android:id="@+id/twitter_login_button"
 		/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Facebook Login"
+			android:id="@+id/facebook_login_button"
+		/>		
 	</LinearLayout>
 </RelativeLayout>

@@ -8,13 +8,14 @@ import com.shelby.data.ShelbyDatabase;
 
 public class VideoStub {
 
-	public VideoStub() { super(); listPostion = 0; }
+	public VideoStub() { super(); listPostion = 0; videoPosition = 0; }
 	
 	private Long localId;
 	private String providerId;
 	private Date updated;
 	private Integer listPostion;
 	private String title;
+	private int videoPosition;
 	
 	public Long getLocalId() {
 		return localId;
@@ -54,6 +55,12 @@ public class VideoStub {
 	}
 	public String getTitle() {
 		return title;
+	}
+	public int getVideoPosition() {
+		return videoPosition;
+	}
+	public void setVideoPosition(int videoPosition) {
+		this.videoPosition = videoPosition;
 	}
 	
 	
