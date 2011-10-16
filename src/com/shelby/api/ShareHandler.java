@@ -14,9 +14,9 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.text.TextUtils;
 
-public class ShareHandler {
+public final class ShareHandler {
 
-	public void shareVideo(String broadcastId, String comment, boolean facebook, boolean twitter, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
+	public static void shareVideo(String broadcastId, String comment, boolean facebook, boolean twitter, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
 		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		ArrayList<String> destinations = new ArrayList<String>();
 		if (facebook)

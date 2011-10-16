@@ -12,11 +12,26 @@ public class VideoStub {
 	
 	private Long localId;
 	private String providerId;
+	private String serverBroadcastId;
 	private Date updated;
 	private Integer listPostion;
 	private String title;
 	private int videoPosition;
+	private String sharerName;
+	private String sharerType;
 	
+	public String getSharerName() {
+		return sharerName;
+	}
+	public void setSharerName(String sharerName) {
+		this.sharerName = sharerName;
+	}
+	public String getSharerType() {
+		return sharerType;
+	}
+	public void setSharerType(String sharerType) {
+		this.sharerType = sharerType;
+	}
 	public Long getLocalId() {
 		return localId;
 	}
@@ -61,6 +76,12 @@ public class VideoStub {
 	}
 	public void setVideoPosition(int videoPosition) {
 		this.videoPosition = videoPosition;
+	}
+	public String getServerBroadcastId() {
+		return serverBroadcastId;
+	}
+	public void setServerBroadcastId(String serverBroadcastId) {
+		this.serverBroadcastId = serverBroadcastId;
 	}
 	
 	

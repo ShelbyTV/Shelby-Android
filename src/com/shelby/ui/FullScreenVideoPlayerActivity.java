@@ -70,8 +70,12 @@ public class FullScreenVideoPlayerActivity extends BaseActivity implements Loade
 				,DbBroadcast.VIDEO_TITLE
 				,DbBroadcast.VIDEO_ID_AT_PROVIDER
 				,DbBroadcast.VIDEO_ORIGINATOR_USER_NAME
-				,DbBroadcast.VIDEO_ORIGINATOR_USER_IMAGE
+				,DbBroadcast.VIDEO_ORIGINATOR_USER_IMAGE //5
 				,DbBroadcast.UPDATED
+				,DbBroadcast.SERVER_ID
+				,DbBroadcast.VIDEO_ORIGIN
+				,DbBroadcast.SHORTENED_LINK
+				,DbBroadcast.VIDEO_ORIGINATOR_USER_NICKNAME	//10		
 			};
 		return new CursorLoader(this, DbBroadcast.CONTENT_URI, projection, DbBroadcast._ID + " = ? ", new String[] { "" + broadcastId }, null);
 	}
@@ -85,6 +89,9 @@ public class FullScreenVideoPlayerActivity extends BaseActivity implements Loade
 			vStub.setUpdated(new Date(1000l*cursor.getLong(6)));
 			vStub.setListPostion(0);
 			vStub.setVideoPosition(currentVideoPosition);
+			vStub.setServerBroadcastId(cursor.getString(7));
+			vStub.setSharerType(cursor.getString(8));
+			vStub.setSharerName(cursor.getString(10));
 			mPlayerFragment.loadVideo(vStub);
 		}
 		

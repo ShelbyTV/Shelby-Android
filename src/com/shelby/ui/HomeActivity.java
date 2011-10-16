@@ -135,7 +135,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 						i.putExtra("local_broadcast_id", mPlayerFragment.getCurrentVideoStub().getLocalId());
 						i.putExtra("current_position", mPlayerFragment.getCurrentLocation());
 						startActivityForResult(i, FULL_SCREEN_ACTIVITY);
-					}					
+					}			
 					public void onAnimationCancel(Animator animation) {}
 				});
 			break;
@@ -148,7 +148,12 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 			    ft.addToBackStack(null);
 
 			    // Create and show the dialog.
-			    DialogFragment newFragment = ShareFragment.newInstance(1);
+			    
+			    DialogFragment newFragment = ShareFragment.newInstance(
+			    		mPlayerFragment.getCurrentVideoStub().getServerBroadcastId()
+			    		, mPlayerFragment.getCurrentVideoStub().getSharerName()
+			    		, mPlayerFragment.getCurrentVideoStub().getSharerType()
+			    );
 			    newFragment.show(ft, "dialog");
 			break;
 		}

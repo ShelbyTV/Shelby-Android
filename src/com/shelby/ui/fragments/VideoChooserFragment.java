@@ -84,6 +84,10 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 			,DbBroadcast.VIDEO_ORIGINATOR_USER_NAME
 			,DbBroadcast.VIDEO_ORIGINATOR_USER_IMAGE
 			,DbBroadcast.UPDATED
+			,DbBroadcast.SERVER_ID
+			,DbBroadcast.VIDEO_ORIGIN
+			,DbBroadcast.SHORTENED_LINK
+			,DbBroadcast.VIDEO_ORIGINATOR_USER_NICKNAME
 		};
 		String[] query = {
 			"youtube"

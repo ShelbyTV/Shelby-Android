@@ -97,12 +97,14 @@ public class ShelbyDatabase {
 				DbBroadcast._ID
 				,DbBroadcast.VIDEO_ID_AT_PROVIDER
 				,DbBroadcast.UPDATED
+				,DbBroadcast.SERVER_ID
 		}, DbBroadcast.UPDATED + " < ? AND " + DbBroadcast.VIDEO_PROVIDER + " = ? ", new String[] { "" + timeInSec, "youtube" }, null, null, DbBroadcast.UPDATED + " desc");
 		if (c.moveToFirst()) {
 			VideoStub vs = new VideoStub();
 			vs.setLocalId(c.getLong(0));
 			vs.setProviderId(c.getString(1));
 			vs.setUpdated(new Date(c.getLong(2)*1000));
+			vs.setServerBroadcastId(c.getString(3));
 			c.close();
 			return vs;
 		}
@@ -179,7 +181,15 @@ public class ShelbyDatabase {
 		if (broadcast.getUpdated() != null)
 			content.put(DbBroadcast.Column.UPDATED, broadcast.getUpdated().getTime()/1000l);
 		if (broadcast.getCreated() != null)
-			content.put(DbBroadcast.Column.CREATED, broadcast.getCreated().getTime()/1000l);
+			content.put(DbBroadcast.Column.CREATED, broadcast.getCreated().getTime()/1000l);		
+		if (broadcast.getLikedByOwner() != null)
+			content.put(DbBroadcast.Column.LIKED_BY_OWNER, broadcast.getLikedByOwner() ? 1 : 0);
+		if (broadcast.getOwnerWatchLater() != null)
+			content.put(DbBroadcast.Column.OWNER_WATCH_LATER, broadcast.getOwnerWatchLater() ? 1 : 0);
+		if (broadcast.getShortenedLink() != null && !broadcast.getShortenedLink().equals(""))
+			content.put(DbBroadcast.Column.SHORTENED_LINK, broadcast.getShortenedLink());
+		if (broadcast.getVideoOrigin() != null && !broadcast.getVideoOrigin().equals(""))
+			content.put(DbBroadcast.Column.VIDEO_ORIGIN, broadcast.getVideoOrigin());
 		try {
 			this.db.insertOrThrow(SQL.Table.BROADCAST, null, content);
 		} catch(Exception ex) {

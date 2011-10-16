@@ -14,24 +14,28 @@
 		  	android:layout_height="wrap_content" 
 		  	android:layout_below="@+id/share_text"  
 		  	android:orientation="horizontal"  	
+		  	android:layout_alignParentRight="true"
      	>
      		<CheckBox 
-	 		  	android:layout_width="wrap_content"
-			  	android:layout_height="wrap_content"
+	 		  	android:layout_width="100dp"
+			  	android:layout_height="100dp"
+			  	android:gravity="center"
 			  	android:button="@drawable/clickable_facebook"
 			  	android:id="@+id/facebook"    		
      		/>
      		<CheckBox 
-	 		  	android:layout_width="wrap_content"
-			  	android:layout_height="wrap_content"
+	 		  	android:layout_width="100dp"
+			  	android:layout_height="100dp"
 			  	android:button="@drawable/clickable_twitter"
-			  	android:id="@+id/twitter"    		
+			  	android:id="@+id/twitter"    
+			  	android:gravity="center"		
      		/>
      		<Button
      			android:layout_width="wrap_content"
      			android:layout_height="wrap_content"
      			android:text="Share"
      			android:id="@+id/share"
+     			android:gravity="center"
      		/>
      	</LinearLayout>
 </RelativeLayout>

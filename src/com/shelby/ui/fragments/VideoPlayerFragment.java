@@ -190,6 +190,14 @@ public class VideoPlayerFragment extends Fragment {
 			public void onFullScreen(VideoStub vStub);
 		}
 		
+		public void stop() {
+			videoView.stopPlayback();
+		}
+		
+		public void start() {
+			videoView.start();
+		}
+		
 		public void onFullScreen(){
 			
 		}

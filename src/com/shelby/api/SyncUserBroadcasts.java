@@ -102,6 +102,17 @@ public final class SyncUserBroadcasts {
 								broad.setDescription(jsonB.getString("description"));
 							if (jsonB.has("user_id"))
 								broad.setUserId(jsonB.getString("user_id"));
+
+							
+							if (jsonB.has("liked_by_owner"))
+								broad.setLikedByOwner(jsonB.getBoolean("liked_by_owner"));
+							if (jsonB.has("owner_watch_later"))
+								broad.setOwnerWatchLater(jsonB.getBoolean("owner_watch_later"));
+							if (jsonB.has("shortened_permalink"))
+								broad.setShortenedLink(jsonB.getString("shortened_permalink"));
+							if (jsonB.has("video_origin"))
+								broad.setVideoOrigin(jsonB.getString("video_origin"));
+							
 							if (jsonB.has("created_at")) {
 								try {
 									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

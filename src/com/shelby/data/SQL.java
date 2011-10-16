@@ -73,6 +73,10 @@ public final class SQL {
 		"	, " + DbBroadcast.Column.WATCHED_BY_OWNER + "					bit" +
 		"	, " + DbBroadcast.Column.CREATED + "							integer" +
 		"	, " + DbBroadcast.Column.UPDATED + "							integer" +
+		"	, " + DbBroadcast.Column.LIKED_BY_OWNER + "						bit" +
+		"	, " + DbBroadcast.Column.OWNER_WATCH_LATER + "					bit" +
+		"	, " + DbBroadcast.Column.SHORTENED_LINK + "						varchar" +
+		"	, " + DbBroadcast.Column.VIDEO_ORIGIN + "						varchar" +
 		" );";
 	
 	public final static class BroadcastIndices {

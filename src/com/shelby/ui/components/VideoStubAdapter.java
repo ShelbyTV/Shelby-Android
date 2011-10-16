@@ -34,6 +34,10 @@ public class VideoStubAdapter extends CursorAdapter {
 	private final int clmVideoOrigName = 4;
 	private final int clmVideoOrigThumb = 5;
 	private final int clmUpdated = 6;
+	private final int clmServerId = 7;
+	private final int clmVideoOrigin = 8;
+	//private final int clmShortenedLink = 9;
+	private final int clmVideoOriginatorUserNickname = 10;
 	
 	/**
 	 * @param context
@@ -71,6 +75,9 @@ public class VideoStubAdapter extends CursorAdapter {
 		vStub.setProviderId(videoAtProvider);
 		vStub.setUpdated(new Date(updated));
 		vStub.setListPostion(c.getPosition());
+		vStub.setServerBroadcastId(c.getString(clmServerId));
+		vStub.setSharerType(c.getString(clmVideoOrigin));
+		vStub.setSharerName(c.getString(clmVideoOriginatorUserNickname));
 		vStub.setTitle(title);
 		vh.getVideoTitle().setTag(vStub);
 		vh.getVideoThumbnail().setTag(null);

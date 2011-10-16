@@ -28,6 +28,35 @@ public class Broadcast {
 	private Boolean watchedByOwner;
 	private Date updated;
 	private Date created;
+	private Boolean likedByOwner;
+	private Boolean ownerWatchLater;
+	private String shortenedLink;
+	private String videoOrigin;
+	
+	public Boolean getLikedByOwner() {
+		return likedByOwner;
+	}
+	public void setLikedByOwner(Boolean likedByOwner) {
+		this.likedByOwner = likedByOwner;
+	}
+	public Boolean getOwnerWatchLater() {
+		return ownerWatchLater;
+	}
+	public void setOwnerWatchLater(Boolean ownerWatchLater) {
+		this.ownerWatchLater = ownerWatchLater;
+	}
+	public String getShortenedLink() {
+		return shortenedLink;
+	}
+	public void setShortenedLink(String shortenedLink) {
+		this.shortenedLink = shortenedLink;
+	}
+	public String getVideoOrigin() {
+		return videoOrigin;
+	}
+	public void setVideoOrigin(String videoOrigin) {
+		this.videoOrigin = videoOrigin;
+	}
 	public Long getLocalId() {
 		return localId;
 	}
