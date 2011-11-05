@@ -3,6 +3,30 @@
   android:layout_width="wrap_content"
   android:layout_height="fill_parent"
   android:orientation="vertical">
+  	  <LinearLayout
+  	  	android:layout_height="wrap_content"
+  	  	android:layout_width="fill_parent" 
+  	  	android:orientation="horizontal"  	  	  
+  	  >
+  	      <ImageButton 
+  	      	android:layout_width="wrap_content"
+  	      	android:layout_height="wrap_content" 
+  	      	android:id="@+id/full_list"   
+  	      	android:src="@drawable/button_list_normal"
+  	      />
+  	      <ImageButton 
+  	      	android:layout_width="wrap_content"
+  	      	android:layout_height="wrap_content"  
+  	      	android:id="@+id/favorite_list"
+  	      	android:src="@drawable/button_favorites_normal"  
+  	      />
+  	      <ImageButton 
+  	      	android:layout_width="wrap_content"
+  	      	android:layout_height="wrap_content"  
+  	      	android:id="@+id/bookmark_list"  
+  	      	android:src="@drawable/button_favorites_normal"
+  	      />  	        	      
+  	  </LinearLayout>
       <com.shelby.ui.components.BounceListView 
   		  android:layout_width="wrap_content"
   		  android:layout_height="fill_parent"
