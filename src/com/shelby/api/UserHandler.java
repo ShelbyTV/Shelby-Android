@@ -68,7 +68,13 @@ public final class UserHandler {
 	public static void markVideoViewed(String broadcastId, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
 		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("watched_by_owner", "true"));
-		ApiHandler.makeSignedPostRequest("v2/broadcasr/"+broadcastId+".json", nvps, ctx);
+		ApiHandler.makeSignedPostRequest("v2/broadcasts/"+broadcastId+".json", nvps, ctx);
+	}
+	
+	public static void markVideoloved(String broadcastId, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
+		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		nvps.add(new BasicNameValuePair("liked_by_owner", "true"));
+		ApiHandler.makeSignedPostRequest("v2/broadcasts/"+broadcastId+".json", nvps, ctx);
 	}
 	
 }
