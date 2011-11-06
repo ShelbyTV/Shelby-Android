@@ -6,26 +6,42 @@
   	  <LinearLayout
   	  	android:layout_height="wrap_content"
   	  	android:layout_width="fill_parent" 
-  	  	android:orientation="horizontal"  	  	  
+  	  	android:orientation="horizontal"  	 
+  	  	android:background="@drawable/background_bevel_gray" 
   	  >
-  	      <ImageButton 
+  	      <ImageView
   	      	android:layout_width="wrap_content"
   	      	android:layout_height="wrap_content" 
   	      	android:id="@+id/full_list"   
   	      	android:src="@drawable/button_list_normal"
   	      />
-  	      <ImageButton 
+  	      <TextView
+  	      	android:layout_height="fill_parent"
+  	      	android:layout_width="1dp"
+  	      	android:background="#000"    
+  	      />
+  	      <ImageView
   	      	android:layout_width="wrap_content"
   	      	android:layout_height="wrap_content"  
   	      	android:id="@+id/favorite_list"
-  	      	android:src="@drawable/button_favorites_normal"  
+  	      	android:src="@drawable/button_favorites_normal" 
   	      />
-  	      <ImageButton 
+  	      <TextView
+  	      	android:layout_height="fill_parent"
+  	      	android:layout_width="1dp"
+  	      	android:background="#000"    
+  	      />  	      
+  	      <ImageView 
   	      	android:layout_width="wrap_content"
   	      	android:layout_height="wrap_content"  
   	      	android:id="@+id/bookmark_list"  
   	      	android:src="@drawable/button_favorites_normal"
-  	      />  	        	      
+  	      />  	  
+  	      <TextView
+  	      	android:layout_height="fill_parent"
+  	      	android:layout_width="1dp"
+  	      	android:background="#000"    
+  	      />  	            	      
   	  </LinearLayout>
       <com.shelby.ui.components.BounceListView 
   		  android:layout_width="wrap_content"
