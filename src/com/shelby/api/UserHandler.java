@@ -40,7 +40,7 @@ public final class UserHandler {
 	}
 	
 	public static void refreshUser(Context ctx) {
-		String url = "v1/users.json";
+		String url = "v2/users.json";
 		try {
 			String resp = ApiHandler.makeSignedGetRequest(url, ctx);
 			JSONArray job = new JSONArray(resp);

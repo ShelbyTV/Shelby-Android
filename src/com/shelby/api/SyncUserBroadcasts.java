@@ -20,7 +20,7 @@ public final class SyncUserBroadcasts {
 		try {
 			ArrayList<Channel> myChannes = new ArrayList<Channel>();
 			
-			String channels = ApiHandler.makeSignedGetRequest("v1/channels.json", ctx);
+			String channels = ApiHandler.makeSignedGetRequest("v2/channels.json", ctx);
 			ShelbyDatabase shelbyDb = new ShelbyDatabase(ctx);
 			try {
 				//shelbyDb.reset();
@@ -60,7 +60,7 @@ public final class SyncUserBroadcasts {
 			try {
 				shelbyDb.beginTransaction();
 				for(Channel c : myChannes) {
-					String broadcasts = ApiHandler.makeSignedGetRequest("v1/channels/" + c.getServerId() + "/broadcasts.json", ctx);
+					String broadcasts = ApiHandler.makeSignedGetRequest("v2/channels/" + c.getServerId() + "/broadcasts.json", ctx);
 					JSONArray broads = new JSONArray(broadcasts);
 					if (broads.length() > 0) {
 						for(int i=0; i<broads.length()-1; i++) {

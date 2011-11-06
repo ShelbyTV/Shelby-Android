@@ -191,7 +191,7 @@ public class ShelbyDatabase {
 		if (broadcast.getVideoOrigin() != null && !broadcast.getVideoOrigin().equals(""))
 			content.put(DbBroadcast.Column.VIDEO_ORIGIN, broadcast.getVideoOrigin());
 		try {
-			this.db.insertOrThrow(SQL.Table.BROADCAST, null, content);
+			this.db.insertWithOnConflict(SQL.Table.BROADCAST, null, content, SQLiteDatabase.CONFLICT_IGNORE);
 		} catch(Exception ex) {
 			if (Constants.DEBUG) ex.printStackTrace();
 		}

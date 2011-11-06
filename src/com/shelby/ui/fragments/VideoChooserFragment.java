@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +32,10 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 	private VideoSelectCallbackInterface mVideoLoadInterface;
 	private int currentSelectedVideoPositon = -1;
 	
+	private ImageView mFullListButton;
+	private ImageView mFavoritesButton;
+	private ImageView mBookmarkButton;
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View root =  inflater.inflate(R.layout.fragment_video_chooser, container, false);
 		getLoaderManager().initLoader(VIDEO_STUB_LOADER, null, this);
@@ -46,9 +52,31 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 				mVideoLoadInterface.onVideoSelect(prov);
 			}
 		});
+        mFullListButton = (ImageView) root.findViewById(R.id.full_list);
+        mFavoritesButton = (ImageView) root.findViewById(R.id.favorite_list);
+        mBookmarkButton = (ImageView) root.findViewById(R.id.bookmark_list);
 		getLoaderManager().getLoader(VIDEO_STUB_LOADER);		
 		mVideoLoadInterface = (VideoSelectCallbackInterface) getActivity();
+		bindClickListeners();
 		return root;
+	}
+	
+	private void bindClickListeners() {
+		mFullListButton.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+				
+			}
+		});
+		mFavoritesButton.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+				
+			}
+		});
+		mBookmarkButton.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+				
+			}
+		});
 	}
 	
 	public void setVideoSelected(int position) {
@@ -89,10 +117,11 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 			,DbBroadcast.SHORTENED_LINK
 			,DbBroadcast.VIDEO_ORIGINATOR_USER_NICKNAME
 		};
-		String[] query = {
+		String[] params = {
 			"youtube"
 		};
-		return new CursorLoader(getActivity(), DbBroadcast.CONTENT_URI, projection, " " + DbBroadcast.VIDEO_PROVIDER + " = ? ", query, DbBroadcast.UPDATED + " desc");
+		String query = DbBroadcast.VIDEO_PROVIDER + " = ? ";
+		return new CursorLoader(getActivity(), DbBroadcast.CONTENT_URI, projection, query, params, DbBroadcast.UPDATED + " desc");
 	}
 
 	public void onLoadFinished(Loader<Cursor> loader, Cursor c) {

@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item  
         android:state_selected="true"
-    	android:drawable="@drawable/button_favorites_highlighted" >
+    	android:drawable="@drawable/button_list_highlighted" >
     </item>
     <item
-    	android:drawable="@drawable/button_favorites_normal" >    
+    	android:drawable="@drawable/button_list_normal" >    
     </item>
 </selector>
