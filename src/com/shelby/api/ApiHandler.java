@@ -20,6 +20,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
@@ -113,6 +114,31 @@ public final class ApiHandler {
 		
 		// create an HTTP request to a protected resource
         HttpPost request = new HttpPost(BASE_URL + urlLoc);
+        if (params != null)
+        	request.setEntity(new UrlEncodedFormEntity(params));
+        // sign the request
+        HttpRequest hr = consumer.sign(request);
+        // send the request
+        HttpClient httpClient = new DefaultHttpClient();
+
+        //request.setHeader("oauth_signature", request.getHeaders("oauth_signature")[0] + consumer.getTokenSecret());
+        HttpResponse response = httpClient.execute(request);
+        InputStream in = response.getEntity().getContent();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        in.close();
+        return sb.toString();
+	}
+	
+	public static String makeSignedPutRequest(String urlLoc, ArrayList<NameValuePair> params, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
+		CommonsHttpOAuthConsumer consumer = getConsumer(ctx);
+		
+		// create an HTTP request to a protected resource
+        HttpPut request = new HttpPut(BASE_URL + urlLoc);
         if (params != null)
         	request.setEntity(new UrlEncodedFormEntity(params));
         // sign the request

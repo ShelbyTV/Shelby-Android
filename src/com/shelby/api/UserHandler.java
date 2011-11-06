@@ -1,9 +1,20 @@
 package com.shelby.api;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.shelby.Constants;
 import com.shelby.api.bean.User;
@@ -52,6 +63,12 @@ public final class UserHandler {
 		} catch(Exception ex) {
 			if (Constants.DEBUG) ex.printStackTrace();
 		}
+	}
+	
+	public static void markVideoViewed(String broadcastId, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
+		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		nvps.add(new BasicNameValuePair("watched_by_owner", "true"));
+		ApiHandler.makeSignedPostRequest("v2/broadcasr/"+broadcastId+".json", nvps, ctx);
 	}
 	
 }
