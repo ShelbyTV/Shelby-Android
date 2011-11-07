@@ -112,6 +112,29 @@ public class ShelbyDatabase {
 		return null;
 	}
 	
+	public VideoStub getPrevStub(long timeInSec) {
+		if (this.db == null)
+			return null;
+		
+		Cursor c = this.db.query(SQL.Table.BROADCAST, new String[] {
+				DbBroadcast._ID
+				,DbBroadcast.VIDEO_ID_AT_PROVIDER
+				,DbBroadcast.CREATED
+				,DbBroadcast.SERVER_ID
+		}, DbBroadcast.CREATED + " > ? AND " + DbBroadcast.VIDEO_PROVIDER + " = ? ", new String[] { "" + timeInSec, "youtube" }, null, null, DbBroadcast.CREATED + " asc");
+		if (c.moveToFirst()) {
+			VideoStub vs = new VideoStub();
+			vs.setLocalId(c.getLong(0));
+			vs.setProviderId(c.getString(1));
+			vs.setUpdated(new Date(c.getLong(2)*1000));
+			vs.setServerBroadcastId(c.getString(3));
+			c.close();
+			return vs;
+		}
+		if (c != null) c.close();
+		return null;
+	}
+	
 	public long insertChannel(Channel channel) {
 		if (this.db == null)
 			throw new NonWritableChannelException();

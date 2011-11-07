@@ -50,7 +50,7 @@ public class VideoStubAdapter extends CursorAdapter {
 		super(context, c, flags);	
 		mInflater = LayoutInflater.from(context);
 		mDrawableManger = new DrawableManager();	
-		mVideoStubAdapterContainer = vsac;
+		mVideoStubAdapterContainer = vsac; //lol
 	}
 
 	@Override
@@ -87,6 +87,8 @@ public class VideoStubAdapter extends CursorAdapter {
 		vStub.setSharerType(c.getString(clmVideoOrigin));
 		vStub.setSharerName(c.getString(clmVideoOriginatorUserNickname));
 		vStub.setTitle(title);
+		vStub.setSharerThumb(sharerPhoto);
+		vStub.setDescription(description);
 		vh.getVideoTitle().setTag(vStub);
 		vh.getVideoThumbnail().setTag(null);
 		vh.getVideoTitle().setText(title);		

@@ -23,7 +23,6 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
@@ -31,12 +30,17 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -46,6 +50,7 @@ import com.shelby.api.UserHandler;
 import com.shelby.ui.components.FlippingImageView;
 import com.shelby.ui.components.VideoStub;
 import com.shelby.ui.utility.Flip3DAnimation;
+import com.shelby.utility.DrawableManager;
 
 public class VideoPlayerFragment extends Fragment {
 	
@@ -57,7 +62,16 @@ public class VideoPlayerFragment extends Fragment {
 		private VideoView videoView;
 		private FlippingImageView loadingSpinner;
 		private int currentPosition = 0;
+		
+		private DrawableManager mDrawableManager;
+		
+		//overlay stuff
 		private ImageView mCloseFullScreen;
+		private RelativeLayout mFullScreenOverlay;
+		private ImageView mSharerThumbnail;
+		private TextView mDescrText;
+		private ImageView mNextVideo;
+		private ImageView mPrevVideo;
 		
 		private VideoFullScreenCallbackInterface mFullScreenInterface;
 		private VideoUnFullScreenCallbackInterface mUnFullScreenInterface;
@@ -66,18 +80,22 @@ public class VideoPlayerFragment extends Fragment {
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 	        View root =  inflater.inflate(R.layout.fragment_video_player, container, false);
+	        mDrawableManager = new DrawableManager();
 	        loadingSpinner = (FlippingImageView) root.findViewById(R.id.loading_video_logo);
 	        loadingSpinner.setRotationFlags(Flip3DAnimation.FLAG_ROTATE_Y);
 	        loadingSpinner.setVisibility(View.GONE);
 			videoView = (VideoView)root.findViewById(R.id.video_view);
+			mFullScreenOverlay = (RelativeLayout) root.findViewById(R.id.header_data_overlay);
 		    mCloseFullScreen = (ImageView) root.findViewById(R.id.close_full_screen);
+		    mSharerThumbnail = (ImageView) root.findViewById(R.id.overlay_thumbnail);
+		    mNextVideo = (ImageView) root.findViewById(R.id.button_next);
+		    mPrevVideo = (ImageView) root.findViewById(R.id.button_prev);
+		    mDescrText = (TextView) root.findViewById(R.id.overlay_description);
 		    MediaController mc = new MediaController(getActivity());
 		    videoView.setMediaController(mc);
 		    videoView.setOnCompletionListener(new OnCompletionListener() {
 				public void onCompletion(MediaPlayer mp) {
 					currentVideoStub = currentVideoStub.getNextStub(getActivity());
-					//String getInfoString = "http://gdata.youtube.com/feeds/mobile/videos/"+currentVideoStub.getProviderId()+"?format=1";
-				    //new GetVideoInfoTask().execute(getInfoString);
 					new GetFileTask().execute(currentVideoStub);
 				}
 			});
@@ -90,6 +108,7 @@ public class VideoPlayerFragment extends Fragment {
 				    	Toast title = Toast.makeText(getActivity(), currentVideoStub.getTitle(), Toast.LENGTH_LONG);
 				    	title.show();
 				    }
+				    updateOverlayData();
 				    videoView.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
 				    
 				}
@@ -116,6 +135,28 @@ public class VideoPlayerFragment extends Fragment {
 	  
 	  public void setCurrentLocation(int position) {
 		  this.currentPosition = position;
+	  }
+	  
+	  public void nextVideo(){
+		  VideoStub vs = currentVideoStub.getNextStub(getActivity());
+		  if(vs!=null){
+			  currentVideoStub = vs; 
+			  new GetFileTask().execute(currentVideoStub);
+		  }
+	  }
+	  public void prevVideo(){
+		  VideoStub vs = currentVideoStub.getPrevStub(getActivity());
+		  if(vs!=null){
+			  currentVideoStub = vs; 
+			  new GetFileTask().execute(currentVideoStub);
+		  }
+	  }
+	  
+	  public void updateOverlayData(){
+	    if(currentVideoStub.getSharerThumb()!=null)
+	    	mDrawableManager.queueDrawableFetch(currentVideoStub.getSharerThumb(), mSharerThumbnail, getActivity().getApplicationContext());
+	    if(currentVideoStub.getDescription()!=null)
+	    	mDescrText.setText(currentVideoStub.getDescription());
 	  }
 		
 	  public class GetVideoInfoTask extends AsyncTask<String, Void, String> {
@@ -215,20 +256,72 @@ public class VideoPlayerFragment extends Fragment {
 		}
 		
 		public void onFullScreen(){
-			mCloseFullScreen.setVisibility(View.VISIBLE);
-			mCloseFullScreen.bringToFront();
-	        mCloseFullScreen.setOnClickListener(new OnClickListener() {			
-				public void onClick(View v) {
-					mUnFullScreenInterface.onUnFullScreen(currentVideoStub);
+			toggleFullScreenOverlay();
+			videoView.invalidate();
+			videoView.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
+			videoView.setOnTouchListener(new OnTouchListener() {			
+				public boolean onTouch(View arg0, MotionEvent arg1) {
+					toggleFullScreenOverlay();
+					return false;
 				}
 			});
-			videoView.invalidate();
 		}
 		
 		public void onUnFullScreen(){
-			mCloseFullScreen.setVisibility(View.GONE);
+			mFullScreenOverlay.setVisibility(View.GONE);
+			mNextVideo.setVisibility(View.GONE);
+	        mPrevVideo.setVisibility(View.GONE);
 			videoView.invalidate();
+			videoView.setSystemUiVisibility(View.STATUS_BAR_VISIBLE);
+			videoView.setOnTouchListener(new OnTouchListener() {			
+				public boolean onTouch(View arg0, MotionEvent arg1) {
+					//Do Nothing here instead
+					return false;
+				}
+			});
 		}
+		
+		private void toggleFullScreenOverlay(){
+			if(mFullScreenOverlay.getVisibility() == View.GONE){
+				mFullScreenOverlay.setVisibility(View.VISIBLE);
+		        mCloseFullScreen.setOnClickListener(new OnClickListener() {			
+					public void onClick(View v) {
+						mUnFullScreenInterface.onUnFullScreen(currentVideoStub);
+					}
+				});
+		        mNextVideo.setVisibility(View.VISIBLE);
+		        mPrevVideo.setVisibility(View.VISIBLE);
+		        mNextVideo.setOnClickListener(new OnClickListener(){
+					public void onClick(View arg0) {
+						nextVideo();
+					}
+		        });
+		        mPrevVideo.setOnClickListener(new OnClickListener(){
+					public void onClick(View arg0) {
+						prevVideo();
+					}
+		        });
+			}else{
+				mFullScreenOverlay.setVisibility(View.GONE);
+				mNextVideo.setVisibility(View.GONE);
+		        mPrevVideo.setVisibility(View.GONE);
+			}
+			
+		}
+		
+		CountDownTimer mOverlayTimer = new CountDownTimer(3000, 1000) {
+		      @Override
+		       public void onTick(long l) 
+		       {
+
+		       }
+
+		       @Override
+		       public void onFinish() 
+		       {
+					mFullScreenOverlay.setVisibility(View.VISIBLE);
+		       };
+		 };
 		
 		public VideoStub getCurrentVideoStub() {
 			return currentVideoStub;
@@ -509,4 +602,5 @@ public class VideoPlayerFragment extends Fragment {
 			}
 			
 		}
+		
 }

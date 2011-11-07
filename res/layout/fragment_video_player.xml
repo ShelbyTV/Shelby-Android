@@ -10,15 +10,60 @@
          android:layout_height="wrap_content"
          android:layout_centerInParent="true"
 	/>
+	<RelativeLayout
+	  	android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:layout_alignParentTop="true"
+  		android:id="@+id/header_data_overlay"
+  		android:visibility="gone"
+  		android:background="#AA3A3A3A"
+  		android:padding="15dp"	
+	>
+	<ImageView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" 
+           android:layout_alignParentTop="true"
+           android:layout_alignParentLeft="true"
+           android:id="@+id/overlay_thumbnail"
+           
+	  />
+	<TextView
+		 style="@style/Font.Shadowed"
+		  android:layout_width="wrap_content"
+           android:layout_height="wrap_content" 
+           android:layout_alignParentTop="true"
+           android:layout_toRightOf="@+id/overlay_thumbnail"
+           android:id="@+id/overlay_description"
+           android:text="VIDEO DATA"
+	></TextView>
 	<ImageView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content" 
            android:src="@drawable/un_full_screen"
-           android:layout_alignParentTop="true"
+           android:layout_centerVertical="true"
            android:layout_alignParentRight="true"
            android:id="@+id/close_full_screen"
-           android:visibility="gone"	
            
+	  />
+	</RelativeLayout>
+	<ImageView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" 
+           android:layout_centerVertical="true"
+           android:layout_alignParentLeft="true"
+           android:id="@+id/button_prev"
+           android:src="@drawable/button_previous"
+           android:visibility="gone"
+           
+	  />
+	  <ImageView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" 
+           android:layout_centerVertical="true"
+           android:layout_alignParentRight="true"
+           android:id="@+id/button_next"
+           android:src="@drawable/button_next"
+           android:visibility="gone"
 	  />
        <com.shelby.ui.components.FlippingImageView
 	     	android:src="@drawable/icon_alone"

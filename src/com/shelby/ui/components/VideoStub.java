@@ -19,6 +19,8 @@ public class VideoStub {
 	private int videoPosition;
 	private String sharerName;
 	private String sharerType;
+	private String sharerThumb;
+	private String description;
 	
 	public String getSharerName() {
 		return sharerName;
@@ -54,6 +56,15 @@ public class VideoStub {
 		sd.close();
 		return vs;
 	}
+	public VideoStub getPrevStub(Context ctx) {
+		ShelbyDatabase sd = new ShelbyDatabase(ctx);
+		sd.openRead();
+		VideoStub vs = sd.getPrevStub(updated.getTime()/1000l);
+		if (vs != null)
+			vs.setListPostion(listPostion-1);
+		sd.close();
+		return vs;
+	}
 	public void setUpdated(Date updated) {
 		this.updated = updated;
 	}
@@ -83,6 +94,18 @@ public class VideoStub {
 	}
 	public void setServerBroadcastId(String serverBroadcastId) {
 		this.serverBroadcastId = serverBroadcastId;
+	}
+	public String getSharerThumb() {
+		return sharerThumb;
+	}
+	public void setSharerThumb(String sharerThumb) {
+		this.sharerThumb = sharerThumb;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	
