@@ -2,15 +2,20 @@ package com.shelby.ui;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
+import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -27,10 +32,11 @@ import com.shelby.ui.fragments.VideoChooserFragment.VideoSelectCallbackInterface
 import com.shelby.ui.fragments.VideoPlayerFragment;
 import com.shelby.ui.fragments.VideoPlayerFragment.VideoFullScreenCallbackInterface;
 import com.shelby.ui.fragments.VideoPlayerFragment.VideoPlayerInterface;
+import com.shelby.ui.fragments.VideoPlayerFragment.VideoUnFullScreenCallbackInterface;
 import com.shelby.ui.utility.Flip3DAnimation;
 import com.shelby.utility.PrefsManager;
 
-public class HomeActivity extends BaseActivity implements VideoSelectCallbackInterface, VideoPlayerInterface, VideoFullScreenCallbackInterface {
+public class HomeActivity extends BaseActivity implements VideoSelectCallbackInterface, VideoPlayerInterface, VideoFullScreenCallbackInterface, VideoUnFullScreenCallbackInterface {
     
 	private final int FULL_SCREEN_ACTIVITY = 1;
 	
@@ -39,6 +45,9 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 	FlippingImageView mFlippingView;
 	RelativeLayout mLoadingContainer;
 	ProgressBar mLoadingProgress;
+	private ActionBar ab;
+	private WakeLock mWakeLock;
+
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +64,11 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
         mFlippingView.setVisibility(View.VISIBLE);        
         mLoadingContainer = (RelativeLayout) findViewById(R.id.loading_container);
         mLoadingProgress = (ProgressBar) findViewById(R.id.loading_progress);
-        getActionBar().setDisplayUseLogoEnabled(true);
-        getActionBar().setTitle("");        
+        ab = getActionBar();
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE,""); 
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setTitle("");        
     }
     
     public void onResume() {
@@ -144,7 +156,11 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 	}
 
 	public void onFullScreen(VideoStub vStub) {
-		mChooserFragment.getView().setVisibility(View.GONE);		
+		fullScreen();
+	}
+	
+	public void onUnFullScreen(VideoStub vStub) {
+		unFullScreen();
 	}
 	
 	@Override
@@ -161,10 +177,8 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 					public void onAnimationStart(Animator animation) {}					
 					public void onAnimationRepeat(Animator animation) {}					
 					public void onAnimationEnd(Animator animation) {
-						Intent i = new Intent().setClass(HomeActivity.this, FullScreenVideoPlayerActivity.class);
-						i.putExtra("local_broadcast_id", mPlayerFragment.getCurrentVideoStub().getLocalId());
-						i.putExtra("current_position", mPlayerFragment.getCurrentLocation());
-						startActivityForResult(i, FULL_SCREEN_ACTIVITY);
+						fullScreen();
+;
 					}
 					public void onAnimationCancel(Animator animation) {}
 				});
@@ -204,5 +218,44 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
+	
+	private void fullScreen(){
+        if(ab!=null && ab.isShowing())
+    		ab.hide();
+    	if(mWakeLock!=null && !mWakeLock.isHeld())
+    		mWakeLock.acquire();
+        mChooserFragment.getView().setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
+		mChooserFragment.getView().setVisibility(View.GONE);
+		mPlayerFragment.onFullScreen();
+	}
+	
+	private void unFullScreen(){
+        if(ab!=null && !ab.isShowing())
+    		ab.show();
+    	if(mWakeLock!=null && mWakeLock.isHeld())
+    		mWakeLock.release();
+        mChooserFragment.getView().setSystemUiVisibility(View.STATUS_BAR_VISIBLE);
+		mChooserFragment.getView().setVisibility(View.VISIBLE);
+		mChooserFragment.getView().animate().translationXBy(-400f).setDuration(500).setListener(new AnimatorListener() {					
+			public void onAnimationStart(Animator animation) {}					
+			public void onAnimationRepeat(Animator animation) {}					
+			public void onAnimationEnd(Animator animation) {
+			}
+			public void onAnimationCancel(Animator animation) {}
+		});
+		mPlayerFragment.onUnFullScreen();
+	}
+	
+	 public void onDestroy(){
+	    	super.onDestroy();
+	    	if(mWakeLock!=null && mWakeLock.isHeld())
+	    		mWakeLock.release();
+	    }
+	    
+	    public void onPause(){
+	    	super.onPause();
+	    	if(mWakeLock!=null && mWakeLock.isHeld())
+	    		mWakeLock.release();
+	    }
     
 }

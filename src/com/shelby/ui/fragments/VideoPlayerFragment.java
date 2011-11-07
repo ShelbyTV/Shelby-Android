@@ -23,6 +23,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
@@ -32,7 +33,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -54,6 +57,11 @@ public class VideoPlayerFragment extends Fragment {
 		private VideoView videoView;
 		private FlippingImageView loadingSpinner;
 		private int currentPosition = 0;
+		private ImageView mCloseFullScreen;
+		
+		private VideoFullScreenCallbackInterface mFullScreenInterface;
+		private VideoUnFullScreenCallbackInterface mUnFullScreenInterface;
+		
 	
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -62,6 +70,7 @@ public class VideoPlayerFragment extends Fragment {
 	        loadingSpinner.setRotationFlags(Flip3DAnimation.FLAG_ROTATE_Y);
 	        loadingSpinner.setVisibility(View.GONE);
 			videoView = (VideoView)root.findViewById(R.id.video_view);
+		    mCloseFullScreen = (ImageView) root.findViewById(R.id.close_full_screen);
 		    MediaController mc = new MediaController(getActivity());
 		    videoView.setMediaController(mc);
 		    videoView.setOnCompletionListener(new OnCompletionListener() {
@@ -92,6 +101,7 @@ public class VideoPlayerFragment extends Fragment {
 					return false;
 				}
 			});
+		    mUnFullScreenInterface = (VideoUnFullScreenCallbackInterface) getActivity();
 	        return root;
 	    }
 	  
@@ -192,6 +202,9 @@ public class VideoPlayerFragment extends Fragment {
 		public interface VideoFullScreenCallbackInterface {
 			public void onFullScreen(VideoStub vStub);
 		}
+		public interface VideoUnFullScreenCallbackInterface {
+			public void onUnFullScreen(VideoStub vStub);
+		}
 		
 		public void stop() {
 			videoView.stopPlayback();
@@ -202,9 +215,21 @@ public class VideoPlayerFragment extends Fragment {
 		}
 		
 		public void onFullScreen(){
-			
+			mCloseFullScreen.setVisibility(View.VISIBLE);
+			mCloseFullScreen.bringToFront();
+	        mCloseFullScreen.setOnClickListener(new OnClickListener() {			
+				public void onClick(View v) {
+					mUnFullScreenInterface.onUnFullScreen(currentVideoStub);
+				}
+			});
+			videoView.invalidate();
 		}
-
+		
+		public void onUnFullScreen(){
+			mCloseFullScreen.setVisibility(View.GONE);
+			videoView.invalidate();
+		}
+		
 		public VideoStub getCurrentVideoStub() {
 			return currentVideoStub;
 		}
