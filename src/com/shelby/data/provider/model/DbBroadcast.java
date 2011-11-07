@@ -33,7 +33,6 @@ public class DbBroadcast {
 	public static final String VIDEO_THUMBNAIL = Table.BROADCAST + "." + Column.VIDEO_THUMBNAIL;
 	public static final String VIDEO_TITLE = Table.BROADCAST + "." + Column.VIDEO_TITLE;
 	public static final String WATCHED_BY_OWNER = Table.BROADCAST + "." + Column.WATCHED_BY_OWNER;
-	public static final String UPDATED = Table.BROADCAST + "." + Column.UPDATED;
 	public static final String CREATED = Table.BROADCAST + "." + Column.CREATED;
 	public static final String LIKED_BY_OWNER = Table.BROADCAST + "." + Column.LIKED_BY_OWNER;
 	public static final String OWNER_WATCH_LATER = Table.BROADCAST + "." + Column.OWNER_WATCH_LATER;
@@ -61,7 +60,6 @@ public class DbBroadcast {
 		public static final String VIDEO_THUMBNAIL = "video_thumbnail";
 		public static final String VIDEO_TITLE = "video_title";
 		public static final String WATCHED_BY_OWNER = "watched_by_owner";
-		public static final String UPDATED = "updated";
 		public static final String CREATED = "created";
 		public static final String LIKED_BY_OWNER = "liked_by_owner";
 		public static final String OWNER_WATCH_LATER = "owner_watch_later";

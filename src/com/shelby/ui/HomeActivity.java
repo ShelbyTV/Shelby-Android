@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.shelby.Constants;
 import com.shelby.R;
@@ -61,7 +62,12 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
     public void onResume() {
     	super.onResume();
     	if (PrefsManager.hasUserCredentials(this)) {
-    		new InitialPopulateTask().execute();
+            if (PrefsManager.getSinceBroadcasts(this) > 0) {
+            	mLoadingContainer.setVisibility(View.GONE);
+            	new StandardUpdateTask().execute();
+            } else {
+            	new InitialPopulateTask().execute();
+            }    		
     	}
     	try {
     		if (mChooserFragment.getView() != null && mChooserFragment.getView().animate() != null)
@@ -88,6 +94,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 		protected String doInBackground(Integer... params) {
 			mLoadingProgress.setProgress(25);
 			UserHandler.refreshUser(HomeActivity.this);
+			UserHandler.pullAuthentications(HomeActivity.this);
 			mLoadingProgress.setProgress(45);
 			SyncUserBroadcasts.sync(HomeActivity.this);
 			mLoadingProgress.setProgress(95);
@@ -98,6 +105,29 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 			try {
 				mLoadingProgress.setProgress(100);
 				mLoadingContainer.animate().alpha(0).scaleX(.50f).scaleY(.50f).setDuration(700);    		
+	    		mChooserFragment.refreshCursor();
+			} catch(Exception ex) {
+				if (Constants.DEBUG) ex.printStackTrace();
+			}
+		}
+    }
+    
+    class StandardUpdateTask extends AsyncTask<Integer, Void, String> {    	
+    	
+		@Override
+		protected String doInBackground(Integer... params) {
+			try {
+				UserHandler.refreshUser(HomeActivity.this);
+				UserHandler.pullAuthentications(HomeActivity.this);
+				SyncUserBroadcasts.sync(HomeActivity.this);
+			} catch (Exception ex) {
+				if (Constants.DEBUG) ex.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute(String result) {
+			try {    		
 	    		mChooserFragment.refreshCursor();
 			} catch(Exception ex) {
 				if (Constants.DEBUG) ex.printStackTrace();
@@ -135,7 +165,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 						i.putExtra("local_broadcast_id", mPlayerFragment.getCurrentVideoStub().getLocalId());
 						i.putExtra("current_position", mPlayerFragment.getCurrentLocation());
 						startActivityForResult(i, FULL_SCREEN_ACTIVITY);
-					}			
+					}
 					public void onAnimationCancel(Animator animation) {}
 				});
 			break;
@@ -148,13 +178,18 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 			    ft.addToBackStack(null);
 
 			    // Create and show the dialog.
-			    
-			    DialogFragment newFragment = ShareFragment.newInstance(
-			    		mPlayerFragment.getCurrentVideoStub().getServerBroadcastId()
-			    		, mPlayerFragment.getCurrentVideoStub().getSharerName()
-			    		, mPlayerFragment.getCurrentVideoStub().getSharerType()
-			    );
-			    newFragment.show(ft, "dialog");
+			    if (mPlayerFragment.getCurrentVideoStub() != null) {
+				    DialogFragment newFragment = ShareFragment.newInstance(
+				    		mPlayerFragment.getCurrentVideoStub().getServerBroadcastId()
+				    		, mPlayerFragment.getCurrentVideoStub().getSharerName()
+				    		, mPlayerFragment.getCurrentVideoStub().getSharerType()
+				    );
+				    newFragment.setHasOptionsMenu(true);
+				    newFragment.show(ft, "dialog");
+			    } else {
+			    	Toast t = Toast.makeText(this, "No video to share", Toast.LENGTH_LONG);
+			    	t.show();
+			    }
 			break;
 		}
 		return super.onMenuItemSelected(featureId, item);

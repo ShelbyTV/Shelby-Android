@@ -3,17 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item  
         android:state_focused="true"
-    	android:drawable="@drawable/background_bevel_light_gray" >
+    	android:drawable="@drawable/color_light_gray_solid" >
     </item>
         <item  
         android:state_pressed="true"
-    	android:drawable="@drawable/background_bevel_light_gray" >
+    	android:drawable="@drawable/color_light_gray_solid" >
     </item>        
     <item  
         android:state_selected="true"
-    	android:drawable="@drawable/background_bevel_light_gray" >
+    	android:drawable="@drawable/color_light_gray_solid" >
     </item>
     <item
-    	android:drawable="@drawable/background_bevel_gray" >    
+    	android:drawable="@drawable/color_gray_solid" >    
     </item>
 </selector>

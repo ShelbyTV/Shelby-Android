@@ -96,9 +96,9 @@ public class ShelbyDatabase {
 		Cursor c = this.db.query(SQL.Table.BROADCAST, new String[] {
 				DbBroadcast._ID
 				,DbBroadcast.VIDEO_ID_AT_PROVIDER
-				,DbBroadcast.UPDATED
+				,DbBroadcast.CREATED
 				,DbBroadcast.SERVER_ID
-		}, DbBroadcast.UPDATED + " < ? AND " + DbBroadcast.VIDEO_PROVIDER + " = ? ", new String[] { "" + timeInSec, "youtube" }, null, null, DbBroadcast.UPDATED + " desc");
+		}, DbBroadcast.CREATED + " < ? AND " + DbBroadcast.VIDEO_PROVIDER + " = ? ", new String[] { "" + timeInSec, "youtube" }, null, null, DbBroadcast.CREATED + " desc");
 		if (c.moveToFirst()) {
 			VideoStub vs = new VideoStub();
 			vs.setLocalId(c.getLong(0));
@@ -178,8 +178,6 @@ public class ShelbyDatabase {
 			content.put(DbBroadcast.Column.VIDEO_TITLE, broadcast.getVideoTitle());
 		if (broadcast.getWatchedByOwner() != null)
 			content.put(DbBroadcast.Column.WATCHED_BY_OWNER, broadcast.getWatchedByOwner());
-		if (broadcast.getUpdated() != null)
-			content.put(DbBroadcast.Column.UPDATED, broadcast.getUpdated().getTime()/1000l);
 		if (broadcast.getCreated() != null)
 			content.put(DbBroadcast.Column.CREATED, broadcast.getCreated().getTime()/1000l);		
 		if (broadcast.getLikedByOwner() != null)

@@ -49,7 +49,8 @@ public class VideoStub {
 		ShelbyDatabase sd = new ShelbyDatabase(ctx);
 		sd.openRead();
 		VideoStub vs = sd.getNextStub(updated.getTime()/1000l);
-		vs.setListPostion(listPostion+1);
+		if (vs != null)
+			vs.setListPostion(listPostion+1);
 		sd.close();
 		return vs;
 	}

@@ -4,14 +4,14 @@
         android:title=""
         android:showAsAction="ifRoom"
         android:actionViewClass="com.shelby.ui.components.UserView" />
+    <item android:id="@+id/share"
+    	android:title="share"
+    	android:icon="@android:drawable/ic_menu_share"
+    	android:showAsAction="ifRoom"
+    	/>    	    
     <item android:id="@+id/full_screen"
     	android:title="full screen"
     	android:icon="@drawable/full_screen"
     	android:showAsAction="ifRoom"
     	/>
-    <item android:id="@+id/share"
-    	android:title="share"
-    	android:icon="@android:drawable/ic_menu_share"
-    	android:showAsAction="ifRoom"
-    	/>    	
 </menu>

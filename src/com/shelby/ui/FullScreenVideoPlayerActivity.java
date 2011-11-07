@@ -71,7 +71,7 @@ public class FullScreenVideoPlayerActivity extends BaseActivity implements Loade
 				,DbBroadcast.VIDEO_ID_AT_PROVIDER
 				,DbBroadcast.VIDEO_ORIGINATOR_USER_NAME
 				,DbBroadcast.VIDEO_ORIGINATOR_USER_IMAGE //5
-				,DbBroadcast.UPDATED
+				,DbBroadcast.CREATED
 				,DbBroadcast.SERVER_ID
 				,DbBroadcast.VIDEO_ORIGIN
 				,DbBroadcast.SHORTENED_LINK

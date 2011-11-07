@@ -21,6 +21,7 @@ public class ShareFragment extends DialogFragment {
 	private CheckBox mShareFacebook;
 	private CheckBox mShareTwitter;
 	private Button mShareButton;
+	private Button mCancelButton;
 	private String serverBroadcastId;
 	private String sharerName;
 	private String sharerType;
@@ -32,18 +33,29 @@ public class ShareFragment extends DialogFragment {
 		mShareFacebook = (CheckBox) v.findViewById(R.id.facebook);
 		mShareTwitter = (CheckBox) v.findViewById(R.id.twitter);
 		mShareButton = (Button) v.findViewById(R.id.share);
+		mCancelButton = (Button) v.findViewById(R.id.cancel);
 		mShareButton.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
 				new ShareTask().execute();
 			}
 		});
-		getDialog().setTitle("Share Video");
+		mCancelButton.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
+		getDialog().setTitle("Share Video");		
 		return v;
 	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
 		Bundle extras = getArguments();
 		if (extras != null && extras.getString("server_broadcast_id") != null) {
 			serverBroadcastId = extras.getString("server_broadcast_id");
@@ -57,9 +69,7 @@ public class ShareFragment extends DialogFragment {
 				}
 			}
 		}
-		
 	}
-	
 	
     public static ShareFragment newInstance(String broadcastId, String sharerName, String sharerType) {
     	ShareFragment f = new ShareFragment();
@@ -89,7 +99,7 @@ public class ShareFragment extends DialogFragment {
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			getDialog().dismiss();
+			dismiss();
 		}
     	
     }
