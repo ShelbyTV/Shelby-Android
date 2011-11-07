@@ -5,30 +5,52 @@
     android:layout_height="fill_parent"
     android:background="#222"
     >
-	<LinearLayout
-		android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_margin="50dp"
+	<RelativeLayout
+		android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
 	    android:layout_centerInParent="true"
-	    android:orientation="vertical"
+	    
 	>
 		<ImageView
+			android:id="@+id/logo"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:src="@drawable/icon_together"
-			android:layout_gravity="center"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="20dp"
 		/>
-		<Button
+		<RelativeLayout
+			android:id="@+id/button_holder"
+			android:layout_below="@+id/logo"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Twitter Login"
+			android:padding="100dp"
+			android:background="#5D5D5D"
+		>
+		<TextView
+			android:id="@+id/logo_subtext"
+			style="@style/Font.Shadowed"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="START WATCHING"
+			android:layout_centerHorizontal="true"
+		/>
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/twitter_sign_in"
 			android:id="@+id/twitter_login_button"
-		/>
-		<Button
+			android:layout_below="@+id/logo_subtext"
+			/>
+		<ImageView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Facebook Login"
+			android:src="@drawable/facebook_sign_in"
 			android:id="@+id/facebook_login_button"
-		/>		
-	</LinearLayout>
+			android:layout_toRightOf="@+id/twitter_login_button"
+			android:layout_marginLeft="15dp"
+			android:layout_below="@+id/logo_subtext"
+		/>	
+		</RelativeLayout>	
+	</RelativeLayout>	
 </RelativeLayout>

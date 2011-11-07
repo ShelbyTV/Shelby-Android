@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.shelby.R;
@@ -19,8 +19,8 @@ public class LoginActivity extends BaseActivity {
 		super.onCreate(grabber);
 		setContentView(R.layout.activity_login);
 		
-		Button twitterLogin = (Button) findViewById(R.id.twitter_login_button);
-		Button facebookLogin = (Button) findViewById(R.id.facebook_login_button);
+		ImageView twitterLogin = (ImageView) findViewById(R.id.twitter_login_button);
+		ImageView facebookLogin = (ImageView) findViewById(R.id.facebook_login_button);
 		twitterLogin.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				new GetAuthUrlTask().execute();

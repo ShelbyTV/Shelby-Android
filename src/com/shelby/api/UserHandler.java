@@ -68,13 +68,33 @@ public final class UserHandler {
 	public static void markVideoViewed(String broadcastId, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
 		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("watched_by_owner", "true"));
-		ApiHandler.makeSignedPostRequest("v2/broadcasts/"+broadcastId+".json", nvps, ctx);
+		try{
+			String resp = ApiHandler.makeSignedPostRequest("v2/broadcasts/"+broadcastId+".json", nvps, ctx);
+			JSONArray job = new JSONArray(resp);
+			if (job.length() > 0) {
+				JSONObject user = job.getJSONObject(0);
+				if (user.has("_id"))
+					PrefsManager.saveUserJSON(resp, ctx);
+			}
+		} catch(Exception ex){
+			if (Constants.DEBUG) ex.printStackTrace();
+		}
 	}
 	
-	public static void markVideoloved(String broadcastId, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
+	public static void markVideoLoved(String broadcastId, Context ctx) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, ClientProtocolException, IOException {
 		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("liked_by_owner", "true"));
-		ApiHandler.makeSignedPostRequest("v2/broadcasts/"+broadcastId+".json", nvps, ctx);
+		try{
+			String resp = ApiHandler.makeSignedPostRequest("v2/broadcasts/"+broadcastId+".json", nvps, ctx);
+			JSONArray job = new JSONArray(resp);
+			if (job.length() > 0) {
+				JSONObject user = job.getJSONObject(0);
+				if (user.has("_id"))
+					PrefsManager.saveUserJSON(resp, ctx);
+			}
+		} catch(Exception ex){
+			if (Constants.DEBUG) ex.printStackTrace();
+		}
 	}
 	
 }
