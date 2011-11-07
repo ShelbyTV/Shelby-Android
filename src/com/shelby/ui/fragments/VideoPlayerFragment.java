@@ -37,7 +37,9 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.shelby.Constants;
 import com.shelby.R;
+import com.shelby.api.UserHandler;
 import com.shelby.ui.components.FlippingImageView;
 import com.shelby.ui.components.VideoStub;
 import com.shelby.ui.utility.Flip3DAnimation;
@@ -80,6 +82,7 @@ public class VideoPlayerFragment extends Fragment {
 				    	title.show();
 				    }
 				    videoView.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
+				    
 				}
 			});
 		    videoView.setOnErrorListener(new OnErrorListener() {				
@@ -286,6 +289,7 @@ public class VideoPlayerFragment extends Fragment {
 					else 
 						videoView.seekTo(currentPosition);
 					videoView.start();
+					new MarkViewedTask().execute(currentVideoStub);
 				} else {
 					Toast t = Toast.makeText(getActivity(), "Woops! Something went wrong. Playing the next video son!", Toast.LENGTH_LONG);
 					t.show();
@@ -457,5 +461,27 @@ public class VideoPlayerFragment extends Fragment {
 		        }
 		        System.out.println("Done");
 		    }
+		}
+		
+		class MarkViewedTask extends AsyncTask<VideoStub, Void, Boolean> {
+
+			protected void onPreExecute() {
+
+			}
+			
+			@Override
+			protected Boolean doInBackground(VideoStub... params) {
+				try {
+					UserHandler.markVideoViewed(params[0].getServerBroadcastId(), getActivity());
+				} catch (Throwable e) {
+					if(Constants.DEBUG)e.printStackTrace();
+				}
+				return true;
+			}
+			
+			protected void onPostExecute(Boolean happened) {
+
+			}
+			
 		}
 }
