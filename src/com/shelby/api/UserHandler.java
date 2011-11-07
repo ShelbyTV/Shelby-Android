@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.shelby.Constants;
 import com.shelby.api.bean.User;
@@ -59,6 +58,22 @@ public final class UserHandler {
 				JSONObject user = job.getJSONObject(0);
 				if (user.has("_id"))
 					PrefsManager.saveUserJSON(resp, ctx);
+			}
+		} catch(Exception ex) {
+			if (Constants.DEBUG) ex.printStackTrace();
+		}
+	}
+	
+	public static void pullAuthentications(Context ctx) {
+		String url = "v2/authentications.json";
+		try {
+			String resp = ApiHandler.makeSignedGetRequest(url, ctx);
+			JSONArray job = new JSONArray(resp);
+			if (job.length() > 0) {
+				for(int i=0; i<job.length(); i++) {
+					String type = job.getString(i);
+					PrefsManager.saveHasSocializationType(type, ctx);
+				}
 			}
 		} catch(Exception ex) {
 			if (Constants.DEBUG) ex.printStackTrace();

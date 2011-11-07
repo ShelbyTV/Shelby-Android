@@ -21,6 +21,25 @@ public final class PrefsManager {
 		e.commit();
 	}
 	
+	public static void saveSocializationsJSON(String json, Context ctx) {
+		SharedPreferences pref = ctx.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+		Editor e = pref.edit();
+		e.putString("user_socializations", json);
+		e.commit();
+	}
+	
+	public static void saveHasSocializationType(String type, Context ctx) {
+		SharedPreferences pref = ctx.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+		Editor e = pref.edit();
+		e.putBoolean("has_" + type, true);
+		e.commit();
+	}
+	
+	public static boolean getHasSocialType(String type, Context ctx) {
+		SharedPreferences pref = ctx.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+		return pref.getBoolean("has_" + type, false);
+	}
+	
 	public static String getUserJSON(Context ctx) {
 		SharedPreferences pref = ctx.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
 		return pref.getString("user_json", "");

@@ -63,6 +63,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
     	super.onResume();
     	if (PrefsManager.hasUserCredentials(this)) {
             if (PrefsManager.getSinceBroadcasts(this) > 0) {
+            	mLoadingContainer.setVisibility(View.GONE);
             	new StandardUpdateTask().execute();
             } else {
             	new InitialPopulateTask().execute();
@@ -93,6 +94,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 		protected String doInBackground(Integer... params) {
 			mLoadingProgress.setProgress(25);
 			UserHandler.refreshUser(HomeActivity.this);
+			UserHandler.pullAuthentications(HomeActivity.this);
 			mLoadingProgress.setProgress(45);
 			SyncUserBroadcasts.sync(HomeActivity.this);
 			mLoadingProgress.setProgress(95);
@@ -116,6 +118,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 		protected String doInBackground(Integer... params) {
 			try {
 				UserHandler.refreshUser(HomeActivity.this);
+				UserHandler.pullAuthentications(HomeActivity.this);
 				SyncUserBroadcasts.sync(HomeActivity.this);
 			} catch (Exception ex) {
 				if (Constants.DEBUG) ex.printStackTrace();

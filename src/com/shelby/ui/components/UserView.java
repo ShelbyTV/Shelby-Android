@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.shelby.R;
 import com.shelby.api.UserHandler;
 import com.shelby.api.bean.User;
 import com.shelby.utility.DrawableManager;
+import com.shelby.utility.PrefsManager;
 
 public class UserView extends LinearLayout {
 
@@ -56,12 +58,30 @@ public class UserView extends LinearLayout {
 			TextView tv = new TextView(context);
 			tv.setText(u.getName());
 			tv.setGravity(Gravity.RIGHT);
-			TextView tv2 = new TextView(context);
-			if (u.getTotalVideosPlayed() != null)
-				tv2.setText(u.getTotalVideosPlayed().toString() + " videos played");
-			tv2.setGravity(Gravity.RIGHT);
+			LinearLayout ll = new LinearLayout(context);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			ll.setLayoutParams(lp);
+			if (PrefsManager.getHasSocialType("twitter", context)) {
+				ImageView iv = new ImageView(context);
+				iv.setImageResource(R.drawable.twitter_active);
+				iv.setPadding(0, 2, 0, 2);
+				ll.addView(iv);
+			}
+			if (PrefsManager.getHasSocialType("facebook", context)) {
+				ImageView iv = new ImageView(context);
+				iv.setImageResource(R.drawable.facebook_active);
+				iv.setPadding(0, 2, 0, 2);
+				ll.addView(iv);				
+			}
+			if (PrefsManager.getHasSocialType("tumblr", context)) {
+				ImageView iv = new ImageView(context);
+				iv.setImageResource(R.drawable.tumblr_active);
+				iv.setPadding(0, 2, 0, 2);
+				ll.addView(iv);
+			}
+			ll.setGravity(Gravity.RIGHT);
 			userData.addView(tv);
-			userData.addView(tv2);
+			userData.addView(ll);
 			this.addView(userData);
 			this.addView(usr);
 		}

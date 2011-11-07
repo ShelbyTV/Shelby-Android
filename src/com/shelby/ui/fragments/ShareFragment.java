@@ -4,9 +4,6 @@ import android.app.DialogFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -54,22 +51,6 @@ public class ShareFragment extends DialogFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-	
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		getActivity().getMenuInflater().inflate(R.menu.action_bar, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {		
-			case R.id.close:
-				dismiss();
-				break;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
