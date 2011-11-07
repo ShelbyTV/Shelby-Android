@@ -38,6 +38,9 @@ public class VideoStubAdapter extends CursorAdapter {
 	private final int clmVideoOrigin = 8;
 	//private final int clmShortenedLink = 9;
 	private final int clmVideoOriginatorUserNickname = 10;
+	private final int clmWatched = 11;
+	private final int clmNickName = 12;
+	private final int clmDescription = 13;
 	
 	/**
 	 * @param context
@@ -52,7 +55,6 @@ public class VideoStubAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View v, Context ctx, Cursor c) {
-		v.setBackgroundResource(R.drawable.clickable_background_bevel_gray);
 		ViewHolder vh = null;
 		if (v.getTag() != null) {
 			vh = (ViewHolder)v.getTag();
@@ -62,13 +64,19 @@ public class VideoStubAdapter extends CursorAdapter {
 			vh.setVideoTitle((TextView) v.findViewById(R.id.video_title));
 			vh.setSharerName((TextView) v.findViewById(R.id.sharer_name));
 			vh.setSharerPhoto((ImageView) v.findViewById(R.id.sharer_photo));
-			vh.setSharerSharedSince((TextView) v.findViewById(R.id.sharer_shared_since));			
+			vh.setSharerSharedSince((TextView) v.findViewById(R.id.sharer_shared_since));
+			vh.setMarker((ImageView) v.findViewById(R.id.marker));
+			vh.setDescription((TextView) v.findViewById(R.id.description));
 		}
 		String title = c.getString(clmVideoTitle);
 		String thumb = c.getString(clmVideoThumbnail);
 		String videoAtProvider = c.getString(clmVideoIdAtProvider);
 		String sharerName = c.getString(clmVideoOrigName);
 		String sharerPhoto = c.getString(clmVideoOrigThumb);
+		String videoOrigin = c.getString(clmVideoOrigin);
+		String nickname = c.getString(clmNickName);
+		boolean watched = c.getInt(clmWatched) == 1;
+		String description = c.getString(clmDescription);
 		Long updated = c.getLong(clmUpdated)*1000l;
 		VideoStub vStub = new VideoStub();
 		vStub.setLocalId(c.getLong(clmLocalId));
@@ -81,8 +89,7 @@ public class VideoStubAdapter extends CursorAdapter {
 		vStub.setTitle(title);
 		vh.getVideoTitle().setTag(vStub);
 		vh.getVideoThumbnail().setTag(null);
-		vh.getVideoTitle().setText(title);
-		vh.getSharerName().setText(sharerName);
+		vh.getVideoTitle().setText(title);		
 		vh.getSharerPhoto().setTag(null);
 		vh.getSharerSharedSince().setText(DateUtil.formatDateForStream("" + (updated/1000l), true));
 		mDrawableManger.queueDrawableFetch(thumb, vh.getVideoThumbnail(), ctx);
@@ -91,6 +98,30 @@ public class VideoStubAdapter extends CursorAdapter {
 			firstItemHasLoaded = true;
 			mVideoStubAdapterContainer.onFirstStubLoaded();
 		}
+		vh.getSharerName().setText(nickname);
+		if (videoOrigin != null) {			
+			if ("twitter".equals(videoOrigin)) {
+				if (watched)
+					vh.getMarker().setImageResource(R.drawable.marker_twitter_watched);
+				else
+					vh.getMarker().setImageResource(R.drawable.marker_twitter_new);
+				vh.getSharerName().setText("@" + nickname);
+			} else if ("facebook".equals(videoOrigin)) {
+				if (watched)
+					vh.getMarker().setImageResource(R.drawable.marker_facebook_watched);
+				else
+					vh.getMarker().setImageResource(R.drawable.marker_facebook_new);				
+			} else if ("tumblr".equals(videoOrigin)) {
+				if (watched)
+					vh.getMarker().setImageResource(R.drawable.marker_tumblr_watched);
+				else
+					vh.getMarker().setImageResource(R.drawable.marker_tumblr_new);
+			}
+		}
+		if (description != null && !description.equals("null")) {
+			vh.getDescription().setText(description);
+		}
+		
 	}
 
 	@Override
@@ -135,14 +166,30 @@ public class VideoStubAdapter extends CursorAdapter {
 			this.sharerName = sharerName;
 		}
 
-
-
 		public void setSharerSharedSince(TextView sharerSharedSince) {
 			this.sharerSharedSince = sharerSharedSince;
 		}
 
 		public TextView getSharerSharedSince() {
 			return sharerSharedSince;
+		}
+
+		public ImageView getMarker() {
+			return marker;
+		}
+
+		public void setMarker(ImageView marker) {
+			this.marker = marker;
+		}
+
+
+
+		public TextView getDescription() {
+			return description;
+		}
+
+		public void setDescription(TextView description) {
+			this.description = description;
 		}
 
 
@@ -152,6 +199,8 @@ public class VideoStubAdapter extends CursorAdapter {
 		private ImageView sharerPhoto;
 		private TextView sharerName;
 		private TextView sharerSharedSince;
+		private ImageView marker;
+		private TextView description;
 			
 	}
 	

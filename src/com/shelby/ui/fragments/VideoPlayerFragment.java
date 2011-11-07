@@ -220,6 +220,7 @@ public class VideoPlayerFragment extends Fragment {
 			
 			private File file;
 			private VideoStub stub;
+			
 			public File getFile() {
 				return file;
 			}
@@ -257,9 +258,11 @@ public class VideoPlayerFragment extends Fragment {
 				if (!happened) {
 					Toast t = Toast.makeText(getActivity(), "Woops! Something went wrong. Playing the next video son!", Toast.LENGTH_LONG);
 					t.show();
-					currentVideoStub = currentVideoStub.getNextStub(getActivity());
-					//String getInfoString = "http://gdata.youtube.com/feeds/mobile/videos/"+currentVideoStub.getProviderId()+"?format=1";
-				    new GetFileTask().execute(currentVideoStub);
+					if (currentVideoStub != null) {
+						currentVideoStub = currentVideoStub.getNextStub(getActivity());
+						//String getInfoString = "http://gdata.youtube.com/feeds/mobile/videos/"+currentVideoStub.getProviderId()+"?format=1";
+						new GetFileTask().execute(currentVideoStub);
+					}
 				}
 			}
 			

@@ -53,6 +53,7 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 			}
 		});
         mFullListButton = (ImageView) root.findViewById(R.id.full_list);
+        mFullListButton.setSelected(true);
         mFavoritesButton = (ImageView) root.findViewById(R.id.favorite_list);
         mBookmarkButton = (ImageView) root.findViewById(R.id.bookmark_list);
 		getLoaderManager().getLoader(VIDEO_STUB_LOADER);		
@@ -64,17 +65,36 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 	private void bindClickListeners() {
 		mFullListButton.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
-				
+				getLoaderManager().destroyLoader(VIDEO_STUB_LOADER);
+				getLoaderManager().initLoader(VIDEO_STUB_LOADER, null, VideoChooserFragment.this);
+				getLoaderManager().getLoader(VIDEO_STUB_LOADER);
+				mFullListButton.setSelected(true);
+				mFavoritesButton.setSelected(false);
+				mBookmarkButton.setSelected(false);
 			}
 		});
 		mFavoritesButton.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
-				
+				Bundle b = new Bundle();
+				b.putString("filter_type", "favorites");
+				getLoaderManager().destroyLoader(VIDEO_STUB_LOADER);
+				getLoaderManager().initLoader(VIDEO_STUB_LOADER, b, VideoChooserFragment.this);
+				getLoaderManager().getLoader(VIDEO_STUB_LOADER);
+				mFullListButton.setSelected(false);
+				mFavoritesButton.setSelected(true);
+				mBookmarkButton.setSelected(false);
 			}
 		});
 		mBookmarkButton.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
-				
+				Bundle b = new Bundle();
+				b.putString("filter_type", "bookmark");
+				getLoaderManager().destroyLoader(VIDEO_STUB_LOADER);
+				getLoaderManager().initLoader(VIDEO_STUB_LOADER, b, VideoChooserFragment.this);
+				getLoaderManager().getLoader(VIDEO_STUB_LOADER);
+				mFullListButton.setSelected(false);
+				mFavoritesButton.setSelected(false);
+				mBookmarkButton.setSelected(true);
 			}
 		});
 	}
@@ -103,25 +123,36 @@ public class VideoChooserFragment extends Fragment implements LoaderManager.Load
 		}
 	};
 
-	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle extras) {
 		String[] projection = {
 			DbBroadcast._ID
 			,DbBroadcast.VIDEO_THUMBNAIL
 			,DbBroadcast.VIDEO_TITLE
 			,DbBroadcast.VIDEO_ID_AT_PROVIDER
 			,DbBroadcast.VIDEO_ORIGINATOR_USER_NAME
-			,DbBroadcast.VIDEO_ORIGINATOR_USER_IMAGE
-			,DbBroadcast.UPDATED
+			,DbBroadcast.VIDEO_ORIGINATOR_USER_IMAGE //5
+			,DbBroadcast.CREATED
 			,DbBroadcast.SERVER_ID
 			,DbBroadcast.VIDEO_ORIGIN
 			,DbBroadcast.SHORTENED_LINK
+			,DbBroadcast.VIDEO_ORIGINATOR_USER_NICKNAME //10
+			,DbBroadcast.WATCHED_BY_OWNER //11
 			,DbBroadcast.VIDEO_ORIGINATOR_USER_NICKNAME
+			,DbBroadcast.DESCRIPTION
+			
 		};
 		String[] params = {
 			"youtube"
 		};
 		String query = DbBroadcast.VIDEO_PROVIDER + " = ? ";
-		return new CursorLoader(getActivity(), DbBroadcast.CONTENT_URI, projection, query, params, DbBroadcast.UPDATED + " desc");
+		if (extras != null && extras.getString("filter_type") != null) {
+			if ("favorites".equals(extras.getString("filter_type"))) {
+				query += " AND " + DbBroadcast.LIKED_BY_OWNER + " = 1 ";
+			} else if ("bookmark".equals(extras.getString("filter_type"))) {
+				query += " AND " + DbBroadcast.OWNER_WATCH_LATER + " = 1 ";
+			}
+		}
+		return new CursorLoader(getActivity(), DbBroadcast.CONTENT_URI, projection, query, params, DbBroadcast.CREATED + " desc");
 	}
 
 	public void onLoadFinished(Loader<Cursor> loader, Cursor c) {

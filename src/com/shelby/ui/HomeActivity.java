@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.shelby.Constants;
 import com.shelby.R;
@@ -61,7 +62,11 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
     public void onResume() {
     	super.onResume();
     	if (PrefsManager.hasUserCredentials(this)) {
-    		new InitialPopulateTask().execute();
+            if (PrefsManager.getSinceBroadcasts(this) > 0) {
+            	new StandardUpdateTask().execute();
+            } else {
+            	new InitialPopulateTask().execute();
+            }    		
     	}
     	try {
     		if (mChooserFragment.getView() != null && mChooserFragment.getView().animate() != null)
@@ -104,6 +109,28 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 			}
 		}
     }
+    
+    class StandardUpdateTask extends AsyncTask<Integer, Void, String> {    	
+    	
+		@Override
+		protected String doInBackground(Integer... params) {
+			try {
+				UserHandler.refreshUser(HomeActivity.this);
+				SyncUserBroadcasts.sync(HomeActivity.this);
+			} catch (Exception ex) {
+				if (Constants.DEBUG) ex.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute(String result) {
+			try {    		
+	    		mChooserFragment.refreshCursor();
+			} catch(Exception ex) {
+				if (Constants.DEBUG) ex.printStackTrace();
+			}
+		}
+    }
 
 	public void onVideoSelect(VideoStub vStub) {
 		mPlayerFragment.loadVideo(vStub);		
@@ -135,7 +162,7 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 						i.putExtra("local_broadcast_id", mPlayerFragment.getCurrentVideoStub().getLocalId());
 						i.putExtra("current_position", mPlayerFragment.getCurrentLocation());
 						startActivityForResult(i, FULL_SCREEN_ACTIVITY);
-					}			
+					}
 					public void onAnimationCancel(Animator animation) {}
 				});
 			break;
@@ -148,13 +175,18 @@ public class HomeActivity extends BaseActivity implements VideoSelectCallbackInt
 			    ft.addToBackStack(null);
 
 			    // Create and show the dialog.
-			    
-			    DialogFragment newFragment = ShareFragment.newInstance(
-			    		mPlayerFragment.getCurrentVideoStub().getServerBroadcastId()
-			    		, mPlayerFragment.getCurrentVideoStub().getSharerName()
-			    		, mPlayerFragment.getCurrentVideoStub().getSharerType()
-			    );
-			    newFragment.show(ft, "dialog");
+			    if (mPlayerFragment.getCurrentVideoStub() != null) {
+				    DialogFragment newFragment = ShareFragment.newInstance(
+				    		mPlayerFragment.getCurrentVideoStub().getServerBroadcastId()
+				    		, mPlayerFragment.getCurrentVideoStub().getSharerName()
+				    		, mPlayerFragment.getCurrentVideoStub().getSharerType()
+				    );
+				    newFragment.setHasOptionsMenu(true);
+				    newFragment.show(ft, "dialog");
+			    } else {
+			    	Toast t = Toast.makeText(this, "No video to share", Toast.LENGTH_LONG);
+			    	t.show();
+			    }
 			break;
 		}
 		return super.onMenuItemSelected(featureId, item);

@@ -13,14 +13,21 @@ import com.shelby.Constants;
 import com.shelby.api.bean.Broadcast;
 import com.shelby.api.bean.Channel;
 import com.shelby.data.ShelbyDatabase;
+import com.shelby.utility.PrefsManager;
 
 public final class SyncUserBroadcasts {
 
 	public static void sync(Context ctx) {
 		try {
 			ArrayList<Channel> myChannes = new ArrayList<Channel>();
-			
-			String channels = ApiHandler.makeSignedGetRequest("v2/channels.json", ctx);
+			String sinceStr = "";
+			/*
+			long since = PrefsManager.getSinceBroadcasts(ctx);
+			if (since > 0) {
+				sinceStr += "?since=" + since;
+			}
+			*/
+			String channels = ApiHandler.makeSignedGetRequest("v2/channels.json" + sinceStr, ctx);
 			ShelbyDatabase shelbyDb = new ShelbyDatabase(ctx);
 			try {
 				//shelbyDb.reset();
@@ -137,6 +144,7 @@ public final class SyncUserBroadcasts {
 				String path = Environment.getExternalStorageDirectory().toString() + "/shelby/";
 				shelbyDb.exportDb(path, "shelby_db.sqlite");
 				shelbyDb.close();
+				PrefsManager.setSinceBroadcastToNow(ctx);
 			}
 		} catch(Exception ex) {
 			if (Constants.DEBUG) ex.printStackTrace();

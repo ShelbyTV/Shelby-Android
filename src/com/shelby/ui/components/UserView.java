@@ -57,7 +57,8 @@ public class UserView extends LinearLayout {
 			tv.setText(u.getName());
 			tv.setGravity(Gravity.RIGHT);
 			TextView tv2 = new TextView(context);
-			tv2.setText(u.getTotalVideosPlayed().toString() + " videos played");
+			if (u.getTotalVideosPlayed() != null)
+				tv2.setText(u.getTotalVideosPlayed().toString() + " videos played");
 			tv2.setGravity(Gravity.RIGHT);
 			userData.addView(tv);
 			userData.addView(tv2);

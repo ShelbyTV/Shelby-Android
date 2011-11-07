@@ -10,7 +10,7 @@
     		android:id="@+id/share_text" 	
      	/>
      	<LinearLayout
-		  	android:layout_width="fill_parent"
+		  	android:layout_width="wrap_content"
 		  	android:layout_height="wrap_content" 
 		  	android:layout_below="@+id/share_text"  
 		  	android:orientation="horizontal"  	
@@ -21,7 +21,8 @@
 			  	android:layout_height="100dp"
 			  	android:gravity="center"
 			  	android:button="@drawable/clickable_facebook"
-			  	android:id="@+id/facebook"    		
+			  	android:id="@+id/facebook"  
+			  	android:layout_marginLeft="25dp"  		
      		/>
      		<CheckBox 
 	 		  	android:layout_width="100dp"
@@ -36,6 +37,21 @@
      			android:text="Share"
      			android:id="@+id/share"
      			android:gravity="center"
+     			android:layout_marginTop="8dp"
+     			android:layout_marginRight="50dp"
+     			android:background="@drawable/button_share"
+     			android:paddingRight="25dp"
+     			android:paddingLeft="25dp"
      		/>
+     		<Button
+     			android:layout_width="wrap_content"
+     			android:layout_height="wrap_content"
+     			android:text="Cancel"
+     			android:id="@+id/cancel"
+     			android:gravity="center"
+     			android:layout_marginTop="8dp"
+     			android:layout_marginRight="25dp"
+     			android:background="@drawable/button_cancel"
+     		/>     		
      	</LinearLayout>
 </RelativeLayout>

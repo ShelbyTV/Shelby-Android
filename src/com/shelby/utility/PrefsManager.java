@@ -1,5 +1,7 @@
 package com.shelby.utility;
 
+import java.util.Date;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -22,5 +24,17 @@ public final class PrefsManager {
 	public static String getUserJSON(Context ctx) {
 		SharedPreferences pref = ctx.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
 		return pref.getString("user_json", "");
+	}
+	
+	public static long getSinceBroadcasts(Context ctx) {
+		SharedPreferences pref = ctx.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+		return pref.getLong("since_broadcasts", 0);
+	}
+	
+	public static void setSinceBroadcastToNow(Context ctx) {
+		SharedPreferences pref = ctx.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+		Editor e = pref.edit();
+		e.putLong("since_broadcasts", (new Date()).getTime()/1000l);
+		e.commit();
 	}
 }
