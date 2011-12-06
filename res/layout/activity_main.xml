@@ -7,7 +7,7 @@
 	  <fragment 
 	  	android:name="com.shelby.ui.fragments.VideoChooserFragment"
         android:id="@+id/fragment_video_chooser"
-        android:layout_width="250dp"
+        android:layout_width="400dp"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
